@@ -1,11 +1,6 @@
 server:
   port: 33333
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/testapp_V2
   kafka:
     consumer:
       bootstrap-servers: ${kafka.bootstrap}
