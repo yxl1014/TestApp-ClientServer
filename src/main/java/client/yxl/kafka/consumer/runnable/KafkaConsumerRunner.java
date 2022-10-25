@@ -1,7 +1,7 @@
 package client.yxl.kafka.consumer.runnable;
 
 import client.common.logs.LogUtil;
-import client.yxl.kafka.consumer.common.KafkaContext;
+import client.yxl.context.ClientContext;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -9,6 +9,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import pto.TestProto;
 
 import java.time.Duration;
@@ -26,35 +27,30 @@ public class KafkaConsumerRunner implements Runnable {
     private final AtomicBoolean closed = new AtomicBoolean(false);
     private final KafkaConsumer<String, String> consumer;
 
-    private final KafkaContext kafkaContext;
+    private ClientContext clientContext;
 
-    public KafkaConsumerRunner(String topicName, KafkaConsumer<String, String> consumer, KafkaContext kafkaContext) {
+
+    public KafkaConsumerRunner(String topicName, KafkaConsumer<String, String> consumer, ClientContext clientContext) {
         this.topicName = topicName;
         this.consumer = consumer;
-        this.kafkaContext = kafkaContext;
+        this.clientContext = clientContext;
     }
 
     @Override
     public void run() {
         try {
             consumer.subscribe(Collections.singleton(topicName));
-            TestProto.KafkaMsg.Builder msgBuilder = TestProto.KafkaMsg.newBuilder();
-            int shellId;
             while (!closed.get()) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                 for (ConsumerRecord<String, String> record : records) {
-                    //获取脚本的id
-                    shellId = Integer.parseInt(record.key().split("_")[1]);
-                    //判断没有存这个脚本的返回报文
-                    if (!this.kafkaContext.getConditionMsgMap().containsKey(shellId)) {
-                        JsonFormat.parser().merge(record.value(), msgBuilder);
-                        //请求成功了才会存储
-                        if (msgBuilder.getSuccess()) {
-                            kafkaContext.addResponse(msgBuilder);
-                        }
-/*                        System.out.printf("offset = %d, key = %s, value = %s\n",
-                                record.offset(), record.key(), record.value());*/
+                    if (Integer.parseInt(record.key()) == clientContext.getUserId()) {
+                        TestProto.TaskShell.Builder builder = TestProto.TaskShell.newBuilder();
+                        JsonFormat.parser().merge(record.value(), builder);
+                        //TODO 这里掉脚本处理器
                     }
+/*
+                    System.out.printf("offset = %d, key = %s, value = %s\n",
+                            record.offset(), record.key(), record.value());*/
                 }
             }
         } catch (WakeupException e) {
@@ -82,7 +78,4 @@ public class KafkaConsumerRunner implements Runnable {
         return closed.get();
     }
 
-    public KafkaContext getKafkaContext() {
-        return kafkaContext;
-    }
 }

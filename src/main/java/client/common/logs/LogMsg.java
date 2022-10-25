@@ -9,6 +9,10 @@ public enum LogMsg {
 
     //---------------------ClientServer---------------------
     TEST("TEST"),
+
+    TOKEN("TOKEN"),
+    CLIENT_CONTEXT("CLIENT_CONTEXT"),
+    PROTO("PROTO"),
     KAFKA("KAFKA"),
     ;
 

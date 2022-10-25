@@ -1,12 +1,15 @@
 package client.yxl.kafka.consumer.common;
 
+import client.common.logs.LogClass;
 import client.common.logs.LogMsg;
 import client.common.logs.LogUtil;
 import client.common.logs.OptionDetails;
 import client.common.util.FinalData;
+import client.yxl.context.ClientContext;
 import client.yxl.kafka.consumer.runnable.KafkaConsumerRunner;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +38,12 @@ public class KafkaConsumerConnectPoll {
      */
     private final Map<String, KafkaConsumerRunner> consumers = new HashMap<>();
 
+    private final ClientContext clientContext;
+
+    public KafkaConsumerConnectPoll(ClientContext clientContext) {
+        this.clientContext = clientContext;
+    }
+
 
     /**
      * 关闭这条队列的监听
@@ -45,10 +54,12 @@ public class KafkaConsumerConnectPoll {
         String topicName = FinalData.getKafkaS2CName(taskId);
         if (consumers.containsKey(topicName)) {
             consumers.get(topicName).shutdown();
-            logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_CLOSE_OK, topicName));
+            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_CLOSE_OK)
+                    .build("topic-name", topicName).log());
             this.consumers.remove(topicName);
         } else {
-            logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_CLOSE_NO_TOPIC, topicName));
+            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_CLOSE_NO_TOPIC)
+                    .build("topic-name", topicName).log());
         }
     }
 
@@ -68,17 +79,17 @@ public class KafkaConsumerConnectPoll {
      * 初始化并开始消费这条队列
      *
      * @param taskId taskId
-     * @param kafkaContext 任务脚本上下文
      */
-    public void initKafkaTopic(int taskId, KafkaContext kafkaContext) {
+    public void initKafkaTopic(int taskId) {
         String topicName = FinalData.getKafkaS2CName(taskId);
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(this.properties);
-        KafkaConsumerRunner kafkaConsumerRunner = new KafkaConsumerRunner(topicName, consumer, kafkaContext);
+        KafkaConsumerRunner kafkaConsumerRunner = new KafkaConsumerRunner(topicName, consumer, clientContext);
         KafkaConsumerRunner old = this.consumers.get(topicName);
 
         //若有旧的topic且他还没有关闭
         if (old != null && !old.getClosed()) {
-            logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_EXIST_OK, topicName));
+            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_EXIST_OK)
+                    .build("topic-name", topicName).log());
             old.shutdown();
         }
         this.consumers.put(topicName, kafkaConsumerRunner);
@@ -87,10 +98,12 @@ public class KafkaConsumerConnectPoll {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_ERROR, topicName));
+            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_ERROR)
+                    .build("topic-name", topicName).log());
             logger.warn(e);
         }
-        logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_OK, topicName));
+        logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_OK)
+                .build("topic-name", topicName).log());
     }
 
     /**
@@ -99,15 +112,17 @@ public class KafkaConsumerConnectPoll {
      * @param taskId taskId
      * @return 返回一个runner
      */
-    public KafkaConsumerRunner getConsumerOrInit(int taskId, KafkaContext kafkaContext) {
+    public KafkaConsumerRunner getConsumerOrInit(int taskId) {
         String topicName = FinalData.getKafkaS2CName(taskId);
         KafkaConsumerRunner consumer = getConsumer(taskId);
         if (consumer != null) {
-            logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_GET_EXIST, topicName));
+            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_GET_EXIST)
+                    .build("topic-name", topicName).log());
             return consumer;
         }
-        logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_GET_NO_EXIST, topicName));
-        initKafkaTopic(taskId, kafkaContext);
+        logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_GET_NO_EXIST)
+                .build("topic-name", topicName).log());
+        initKafkaTopic(taskId);
         return getConsumer(taskId);
     }
 

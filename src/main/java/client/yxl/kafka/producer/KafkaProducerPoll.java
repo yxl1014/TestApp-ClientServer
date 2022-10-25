@@ -1,5 +1,6 @@
 package client.yxl.kafka.producer;
 
+import client.common.logs.LogClass;
 import client.common.logs.LogMsg;
 import client.common.logs.LogUtil;
 import client.common.logs.OptionDetails;
@@ -44,13 +45,15 @@ public class KafkaProducerPoll {
     public synchronized boolean createProducer(int taskId) {
         String topicName = FinalData.getKafkaC2SName(taskId);
         if (producerMaps.containsKey(taskId)) {
-            logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CREATE_IS_EXIST, topicName));
+            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CREATE_IS_EXIST)
+                    .build("topic-name", topicName).log());
             return false;
         }
 
         Producer<String, String> producer = new KafkaProducer<>(this.properties);
         producerMaps.put(taskId, producer);
-        logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CREATE_SUCCESS, topicName));
+        logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CREATE_SUCCESS)
+                .build("topic-name", topicName).log());
         return true;
     }
 
@@ -63,7 +66,8 @@ public class KafkaProducerPoll {
     public synchronized boolean closeProducer(int taskId) {
         String topicName = FinalData.getKafkaC2SName(taskId);
         if (!producerMaps.containsKey(taskId)) {
-            logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CLOSE_NOT_EXIST, topicName));
+            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CLOSE_NOT_EXIST)
+                    .build("topic-name", topicName).log());
             return false;
         }
         Producer<String, String> producer = producerMaps.get(taskId);
@@ -73,27 +77,30 @@ public class KafkaProducerPoll {
         producer.close();
         //删除map
         producerMaps.remove(taskId);
-        logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CLOSE_SUCCESS, topicName));
+        logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CLOSE_SUCCESS)
+                .build("topic-name", topicName).log());
         return true;
     }
 
     /**
-     * @param taskId 任务id
-     * @param userId 用户id
-     * @param msg    发送的内容，就是TestProto.TaskShell的Json对象
+     * @param taskId  任务id
+     * @param userId  用户id
+     * @param shellId 脚本id
+     * @param msg     发送的内容，就是TestProto.TaskShell的Json对象
      * @return 成功或失败
      */
-    public boolean sendMsg(int taskId, int userId, String msg) {
+    public boolean sendMsg(int taskId, int userId, int shellId, String msg) {
         String topicName = FinalData.getKafkaC2SName(taskId);
         Producer<String, String> producer = producerMaps.get(taskId);
         if (producer == null) {
-            logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_SEND_NO_PRODUCER, topicName));
+            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_SEND_NO_PRODUCER)
+                    .build("topic-name", topicName).log());
             return false;
         }
-        producer.send(new ProducerRecord<>(topicName, String.valueOf(userId), msg));
+        producer.send(new ProducerRecord<>(topicName, userId + "_" + shellId, msg));
         producer.flush();
-
-        logger.info(LogUtil.makeKafkaLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_SEND_SUCCESS, topicName));
+        logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_SEND_SUCCESS)
+                .build("topic-name", topicName).log());
         return true;
     }
 
