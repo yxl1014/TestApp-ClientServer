@@ -13,6 +13,8 @@ public enum LogMsg {
     TOKEN("TOKEN"),
     CLIENT_CONTEXT("CLIENT_CONTEXT"),
     PROTO("PROTO"),
+
+    FILE("FILE"),
     KAFKA("KAFKA"),
     ;
 

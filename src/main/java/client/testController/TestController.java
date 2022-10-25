@@ -1,6 +1,6 @@
 package client.testController;
 
-import client.common.logs.LogClass;
+import client.common.logs.LogBuilder;
 import client.common.logs.LogMsg;
 import client.common.logs.LogUtil;
 import client.common.logs.OptionDetails;
@@ -20,7 +20,7 @@ public class TestController {
 
     @GetMapping("test")
     public String test() {
-        logger.info(LogClass.initLog(LogMsg.TEST, OptionDetails.TEST_OK).log());
+        logger.info(LogBuilder.initLog(LogMsg.TEST, OptionDetails.TEST_OK).log());
         return "test";
     }
 }

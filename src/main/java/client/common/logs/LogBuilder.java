@@ -1,23 +1,19 @@
 package client.common.logs;
 
-import lombok.Data;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * @author yxl
  * @date: 2022/10/25 下午2:41
  */
 
-public class LogClass {
+public class LogBuilder {
 
     private StringBuilder builder = new StringBuilder();
 
-    private LogClass() {
+    private LogBuilder() {
     }
 
-    public static LogClass initLog(LogMsg logMsg, OptionDetails optionDetails) {
-        LogClass clz = new LogClass();
+    public static LogBuilder initLog(LogMsg logMsg, OptionDetails optionDetails) {
+        LogBuilder clz = new LogBuilder();
         if (logMsg != null) {
             clz.builder.append(logMsg.getName());
         }
@@ -29,7 +25,7 @@ public class LogClass {
         return clz;
     }
 
-    public LogClass build(String name, Object msg) {
+    public LogBuilder build(String name, Object msg) {
         this.builder.append("---").append(name != null ? name : " ");
         this.builder.append(":").append(msg != null ? msg : " ");
         return this;

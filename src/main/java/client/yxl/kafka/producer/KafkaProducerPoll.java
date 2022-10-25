@@ -1,6 +1,6 @@
 package client.yxl.kafka.producer;
 
-import client.common.logs.LogClass;
+import client.common.logs.LogBuilder;
 import client.common.logs.LogMsg;
 import client.common.logs.LogUtil;
 import client.common.logs.OptionDetails;
@@ -45,14 +45,14 @@ public class KafkaProducerPoll {
     public synchronized boolean createProducer(int taskId) {
         String topicName = FinalData.getKafkaC2SName(taskId);
         if (producerMaps.containsKey(taskId)) {
-            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CREATE_IS_EXIST)
+            logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CREATE_IS_EXIST)
                     .build("topic-name", topicName).log());
             return false;
         }
 
         Producer<String, String> producer = new KafkaProducer<>(this.properties);
         producerMaps.put(taskId, producer);
-        logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CREATE_SUCCESS)
+        logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CREATE_SUCCESS)
                 .build("topic-name", topicName).log());
         return true;
     }
@@ -66,7 +66,7 @@ public class KafkaProducerPoll {
     public synchronized boolean closeProducer(int taskId) {
         String topicName = FinalData.getKafkaC2SName(taskId);
         if (!producerMaps.containsKey(taskId)) {
-            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CLOSE_NOT_EXIST)
+            logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CLOSE_NOT_EXIST)
                     .build("topic-name", topicName).log());
             return false;
         }
@@ -77,7 +77,7 @@ public class KafkaProducerPoll {
         producer.close();
         //删除map
         producerMaps.remove(taskId);
-        logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CLOSE_SUCCESS)
+        logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_CLOSE_SUCCESS)
                 .build("topic-name", topicName).log());
         return true;
     }
@@ -93,13 +93,13 @@ public class KafkaProducerPoll {
         String topicName = FinalData.getKafkaC2SName(taskId);
         Producer<String, String> producer = producerMaps.get(taskId);
         if (producer == null) {
-            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_SEND_NO_PRODUCER)
+            logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_SEND_NO_PRODUCER)
                     .build("topic-name", topicName).log());
             return false;
         }
         producer.send(new ProducerRecord<>(topicName, userId + "_" + shellId, msg));
         producer.flush();
-        logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_SEND_SUCCESS)
+        logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_PRODUCER_SEND_SUCCESS)
                 .build("topic-name", topicName).log());
         return true;
     }

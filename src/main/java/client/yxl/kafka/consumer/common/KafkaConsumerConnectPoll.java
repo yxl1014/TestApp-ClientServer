@@ -1,6 +1,6 @@
 package client.yxl.kafka.consumer.common;
 
-import client.common.logs.LogClass;
+import client.common.logs.LogBuilder;
 import client.common.logs.LogMsg;
 import client.common.logs.LogUtil;
 import client.common.logs.OptionDetails;
@@ -9,7 +9,6 @@ import client.yxl.context.ClientContext;
 import client.yxl.kafka.consumer.runnable.KafkaConsumerRunner;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -54,11 +53,11 @@ public class KafkaConsumerConnectPoll {
         String topicName = FinalData.getKafkaS2CName(taskId);
         if (consumers.containsKey(topicName)) {
             consumers.get(topicName).shutdown();
-            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_CLOSE_OK)
+            logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_CLOSE_OK)
                     .build("topic-name", topicName).log());
             this.consumers.remove(topicName);
         } else {
-            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_CLOSE_NO_TOPIC)
+            logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_CLOSE_NO_TOPIC)
                     .build("topic-name", topicName).log());
         }
     }
@@ -88,7 +87,7 @@ public class KafkaConsumerConnectPoll {
 
         //若有旧的topic且他还没有关闭
         if (old != null && !old.getClosed()) {
-            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_EXIST_OK)
+            logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_EXIST_OK)
                     .build("topic-name", topicName).log());
             old.shutdown();
         }
@@ -98,11 +97,11 @@ public class KafkaConsumerConnectPoll {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_ERROR)
+            logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_ERROR)
                     .build("topic-name", topicName).log());
             logger.warn(e);
         }
-        logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_OK)
+        logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_START_OK)
                 .build("topic-name", topicName).log());
     }
 
@@ -116,11 +115,11 @@ public class KafkaConsumerConnectPoll {
         String topicName = FinalData.getKafkaS2CName(taskId);
         KafkaConsumerRunner consumer = getConsumer(taskId);
         if (consumer != null) {
-            logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_GET_EXIST)
+            logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_GET_EXIST)
                     .build("topic-name", topicName).log());
             return consumer;
         }
-        logger.info(LogClass.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_GET_NO_EXIST)
+        logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_GET_NO_EXIST)
                 .build("topic-name", topicName).log());
         initKafkaTopic(taskId);
         return getConsumer(taskId);

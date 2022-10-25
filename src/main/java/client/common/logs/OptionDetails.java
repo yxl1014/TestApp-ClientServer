@@ -155,7 +155,18 @@ public enum OptionDetails {
 
     //es
     ELASTICSEARCH_SEARCH("es数据搜索","失败","可能是无此映射、es服务器异常等"),ELASTICSEARCH_CLOSE("es数据搜索","失败","关闭es连接失败"),
-    ELASTICSEARCH_JSON_FORMAT("json解析","失败","json解析失败")
+    ELASTICSEARCH_JSON_FORMAT("json解析","失败","json解析失败"),
+
+
+    //---------------------ClientServer---------------------
+    //file
+    READ_FILE_NOT_EXIST("读取文件","失败","文件不存在"),
+    READ_FILE_IS_NULL("读取文件","失败","文件内容为空"),
+
+    WRITE_FILE_TOKEN_OK("写入文件","成功","token写入成功"),
+    //clientContext
+    CLIENT_CONTEXT_ON_LOGIN_OK("客户端上下文","成功","onLogin执行成功"),
+    CLIENT_CONTEXT_ON_INIT_OK("客户端上下文","成功","onInit执行成功"),
     ;
     private String type;
     private String status;

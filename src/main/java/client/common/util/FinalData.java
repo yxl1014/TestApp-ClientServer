@@ -41,6 +41,9 @@ public class FinalData {
     public static long DELAY_TIME = 5000;
 
 
+    public static String LOCAL_TOKEN_NAME = "TOKEN.txt";
+
+
     /**
      * byte数组转int
      */
