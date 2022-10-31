@@ -58,6 +58,8 @@ enum Types{
   S2C_PROD_GET_ALL_ADD_TASKS = 45;
   C2S_PROD_GET_ALL_ADD_TASKS = 46;
 
+  ELASTICSEARCH_SEARCH = 47;
+
 
 }
 
@@ -196,6 +198,11 @@ message TaskResult{
   int64 successNumber = 5;
 }
 
+message TaskResultList{
+  string taskResultList = 1;
+  int32 taskResultNum = 2;
+}
+
 message Task{
   int32 taskId = 1;                   //任务id
   string taskName = 2;                //任务名
@@ -204,7 +211,7 @@ message Task{
   map<int32, TaskShell> shell = 5;    //任务脚本
   int32 taskCost = 6;                 //任务所需人数
   repeated int32 taskCons = 7;        //正在测试的用户id
-  TaskResult result = 8;              //任务返回结果集
+  repeated TaskResult result = 8;     //任务返回结果集
   bool status = 9;                    //任务当前状态  是否可以测试
 }
 
@@ -376,3 +383,8 @@ message S2C_Es_DeleteToTestId
 
 
 //--------------------ClientServer--------------------
+message C_User{
+  int32 doingTaskId = 1;
+  repeated int32 getTasks = 2;
+  repeated int32 addTasks = 3;
+}

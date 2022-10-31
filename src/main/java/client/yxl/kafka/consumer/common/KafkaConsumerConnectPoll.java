@@ -37,12 +37,6 @@ public class KafkaConsumerConnectPoll {
      */
     private final Map<String, KafkaConsumerRunner> consumers = new HashMap<>();
 
-    private final ClientContext clientContext;
-
-    public KafkaConsumerConnectPoll(ClientContext clientContext) {
-        this.clientContext = clientContext;
-    }
-
 
     /**
      * 关闭这条队列的监听
@@ -79,7 +73,7 @@ public class KafkaConsumerConnectPoll {
      *
      * @param taskId taskId
      */
-    public void initKafkaTopic(int taskId) {
+    public void initKafkaTopic(int taskId,ClientContext clientContext) {
         String topicName = FinalData.getKafkaS2CName(taskId);
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(this.properties);
         KafkaConsumerRunner kafkaConsumerRunner = new KafkaConsumerRunner(topicName, consumer, clientContext);
@@ -111,7 +105,7 @@ public class KafkaConsumerConnectPoll {
      * @param taskId taskId
      * @return 返回一个runner
      */
-    public KafkaConsumerRunner getConsumerOrInit(int taskId) {
+    public KafkaConsumerRunner getConsumerOrInit(int taskId,ClientContext clientContext) {
         String topicName = FinalData.getKafkaS2CName(taskId);
         KafkaConsumerRunner consumer = getConsumer(taskId);
         if (consumer != null) {
@@ -121,7 +115,7 @@ public class KafkaConsumerConnectPoll {
         }
         logger.info(LogBuilder.initLog(LogMsg.KAFKA, OptionDetails.KAFKA_CONSUMER_TOPIC_GET_NO_EXIST)
                 .build("topic-name", topicName).log());
-        initKafkaTopic(taskId);
+        initKafkaTopic(taskId,clientContext);
         return getConsumer(taskId);
     }
 

@@ -167,6 +167,13 @@ public enum OptionDetails {
     //clientContext
     CLIENT_CONTEXT_ON_LOGIN_OK("客户端上下文","成功","onLogin执行成功"),
     CLIENT_CONTEXT_ON_INIT_OK("客户端上下文","成功","onInit执行成功"),
+    CLIENT_CONTEXT_ON_GET_TASK("客户端上下文","成功","onGetTask执行成功"),
+    CLIENT_CONTEXT_ON_GET_TASK_LIST("客户端上下文","成功","onGetTask_List执行成功"),
+
+    CLIENT_CONTEXT_ON_START_TASK("客户端上下文","成功","onStartTask执行成功"),
+    CLIENT_CONTEXT_ON_END_TASK("客户端上下文","成功","onEndTask执行成功"),
+    CLIENT_CONTEXT_ON_LISTENER_SHELL("客户端上下文","成功","onListenerShell执行成功"),
+    CLIENT_CONTEXT_ON_GET_USER_MSG("客户端上下文","成功","onGetUserMsg执行成功"),
     ;
     private String type;
     private String status;

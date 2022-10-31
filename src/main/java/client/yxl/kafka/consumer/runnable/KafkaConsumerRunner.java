@@ -46,7 +46,7 @@ public class KafkaConsumerRunner implements Runnable {
                     if (Integer.parseInt(record.key()) == clientContext.getUserId()) {
                         TestProto.TaskShell.Builder builder = TestProto.TaskShell.newBuilder();
                         JsonFormat.parser().merge(record.value(), builder);
-                        //TODO 这里掉脚本处理器
+                        this.clientContext.onListenerShell(builder);
                     }
 /*
                     System.out.printf("offset = %d, key = %s, value = %s\n",
