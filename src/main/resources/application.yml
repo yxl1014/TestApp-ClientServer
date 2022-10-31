@@ -30,3 +30,7 @@ mainServer:
 loginServer:
   ip: 127.0.0.1
   port: 11111
+
+local:
+  taskCache:
+    size: 15
