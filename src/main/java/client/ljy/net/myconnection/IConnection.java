@@ -5,5 +5,4 @@ import pto.TestProto;
 public interface IConnection {
     void sendRequest();
     void setParameter(TestProto.TaskShell.Builder shell);
-    
 }

@@ -21661,7 +21661,9 @@ pto.TestProto.TaskShell defaultValue);
       // @@protoc_insertion_point(message_implements:KafkaMsg)
       KafkaMsgOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use KafkaMsg.newBuilder() to construct.
+      public static Object Builder;
+
+      // Use KafkaMsg.newBuilder() to construct.
     private KafkaMsg(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
