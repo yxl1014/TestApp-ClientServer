@@ -1,5 +1,4 @@
 package client.yxl.kafka.consumer.common;
-
 import client.common.logs.LogBuilder;
 import client.common.logs.LogMsg;
 import client.common.logs.LogUtil;
