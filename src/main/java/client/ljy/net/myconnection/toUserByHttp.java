@@ -1,5 +1,11 @@
 package client.ljy.net.myconnection;
 
+import client.common.logs.LogBuilder;
+import client.common.logs.LogMsg;
+import client.common.logs.LogUtil;
+import client.common.logs.OptionDetails;
+import client.ljy.net.factory.ConnectionFactory;
+import org.apache.logging.log4j.Logger;
 import pto.TestProto;
 
 import java.io.*;
@@ -10,6 +16,8 @@ import java.util.Map;
 
 public class toUserByHttp implements IConnection {
 
+
+    private final static Logger logger = LogUtil.getLogger(toUserByHttp.class);
     private HttpURLConnection connection;
 
     private TestProto.TaskShell.Builder shell;
@@ -37,6 +45,7 @@ public class toUserByHttp implements IConnection {
             }
 
         } catch (IOException e) {
+            logger.info(LogBuilder.initLog(LogMsg.NET, OptionDetails.CONNECTION_SEND_HTTP_FAIL));
             throw new RuntimeException(e);
         }
 
