@@ -177,6 +177,7 @@ enum TaskProtocl{
 }
 
 message TaskShell{
+  int32  shellId = 12;
   string ip = 1;                      //请求IP
   string port = 2;                    //请求Port
   map<string, string> heads = 3;      //报文头信息

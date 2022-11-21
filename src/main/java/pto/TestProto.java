@@ -14163,6 +14163,12 @@ public final class TestProto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <code>int32 shellId = 12;</code>
+     * @return The shellId.
+     */
+    int getShellId();
+
+    /**
      * <pre>
      *请求IP
      * </pre>
@@ -14487,6 +14493,11 @@ java.lang.String defaultValue);
               intervalTime_ = input.readInt64();
               break;
             }
+            case 96: {
+
+              shellId_ = input.readInt32();
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -14531,6 +14542,17 @@ java.lang.String defaultValue);
       return pto.TestProto.internal_static_TaskShell_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               pto.TestProto.TaskShell.class, pto.TestProto.TaskShell.Builder.class);
+    }
+
+    public static final int SHELLID_FIELD_NUMBER = 12;
+    private int shellId_;
+    /**
+     * <code>int32 shellId = 12;</code>
+     * @return The shellId.
+     */
+    @java.lang.Override
+    public int getShellId() {
+      return shellId_;
     }
 
     public static final int IP_FIELD_NUMBER = 1;
@@ -14985,6 +15007,9 @@ java.lang.String defaultValue);
       if (intervalTime_ != 0L) {
         output.writeInt64(11, intervalTime_);
       }
+      if (shellId_ != 0) {
+        output.writeInt32(12, shellId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -15039,6 +15064,10 @@ java.lang.String defaultValue);
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(11, intervalTime_);
       }
+      if (shellId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(12, shellId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -15054,6 +15083,8 @@ java.lang.String defaultValue);
       }
       pto.TestProto.TaskShell other = (pto.TestProto.TaskShell) obj;
 
+      if (getShellId()
+          != other.getShellId()) return false;
       if (!getIp()
           .equals(other.getIp())) return false;
       if (!getPort()
@@ -15087,6 +15118,8 @@ java.lang.String defaultValue);
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SHELLID_FIELD_NUMBER;
+      hash = (53 * hash) + getShellId();
       hash = (37 * hash) + IP_FIELD_NUMBER;
       hash = (53 * hash) + getIp().hashCode();
       hash = (37 * hash) + PORT_FIELD_NUMBER;
@@ -15268,6 +15301,8 @@ java.lang.String defaultValue);
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        shellId_ = 0;
+
         ip_ = "";
 
         port_ = "";
@@ -15316,6 +15351,7 @@ java.lang.String defaultValue);
       public pto.TestProto.TaskShell buildPartial() {
         pto.TestProto.TaskShell result = new pto.TestProto.TaskShell(this);
         int from_bitField0_ = bitField0_;
+        result.shellId_ = shellId_;
         result.ip_ = ip_;
         result.port_ = port_;
         result.heads_ = internalGetHeads();
@@ -15376,6 +15412,9 @@ java.lang.String defaultValue);
 
       public Builder mergeFrom(pto.TestProto.TaskShell other) {
         if (other == pto.TestProto.TaskShell.getDefaultInstance()) return this;
+        if (other.getShellId() != 0) {
+          setShellId(other.getShellId());
+        }
         if (!other.getIp().isEmpty()) {
           ip_ = other.ip_;
           onChanged();
@@ -15442,6 +15481,37 @@ java.lang.String defaultValue);
         return this;
       }
       private int bitField0_;
+
+      private int shellId_ ;
+      /**
+       * <code>int32 shellId = 12;</code>
+       * @return The shellId.
+       */
+      @java.lang.Override
+      public int getShellId() {
+        return shellId_;
+      }
+      /**
+       * <code>int32 shellId = 12;</code>
+       * @param value The shellId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setShellId(int value) {
+        
+        shellId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 shellId = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearShellId() {
+        
+        shellId_ = 0;
+        onChanged();
+        return this;
+      }
 
       private java.lang.Object ip_ = "";
       /**
@@ -21661,9 +21731,7 @@ pto.TestProto.TaskShell defaultValue);
       // @@protoc_insertion_point(message_implements:KafkaMsg)
       KafkaMsgOrBuilder {
   private static final long serialVersionUID = 0L;
-      public static Object Builder;
-
-      // Use KafkaMsg.newBuilder() to construct.
+    // Use KafkaMsg.newBuilder() to construct.
     private KafkaMsg(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
@@ -41729,94 +41797,94 @@ pto.TestProto.TaskShell defaultValue);
       "MailBox\022\016\n\006status\030\001 \001(\010\022\013\n\003msg\030\002 \001(\t\"5\n\020" +
       "C2S_CheckMailBox\022\014\n\004code\030\001 \001(\t\022\023\n\004user\030\002" +
       " \001(\0132\005.User\"/\n\020S2C_CheckMailBox\022\016\n\006statu" +
-      "s\030\001 \001(\010\022\013\n\003msg\030\002 \001(\t\"\217\002\n\tTaskShell\022\n\n\002ip" +
-      "\030\001 \001(\t\022\014\n\004port\030\002 \001(\t\022$\n\005heads\030\003 \003(\0132\025.Ta" +
-      "skShell.HeadsEntry\022\014\n\004body\030\004 \001(\t\022\014\n\004type" +
-      "\030\005 \001(\005\022\021\n\tcondition\030\006 \001(\005\022\024\n\014conditionMs" +
-      "g\030\007 \001(\t\022\024\n\014responseType\030\010 \001(\005\022\020\n\010respFin" +
-      "d\030\t \001(\t\022\021\n\tstartTime\030\n \001(\003\022\024\n\014intervalTi" +
-      "me\030\013 \001(\003\032,\n\nHeadsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005v" +
-      "alue\030\002 \001(\t:\0028\001\"n\n\nTaskResult\022\016\n\006taskId\030\001" +
-      " \001(\005\022\022\n\nresultJson\030\002 \001(\t\022\021\n\tresultNum\030\003 " +
-      "\001(\003\022\022\n\nfailNumber\030\004 \001(\003\022\025\n\rsuccessNumber" +
-      "\030\005 \001(\003\"?\n\016TaskResultList\022\026\n\016taskResultLi" +
-      "st\030\001 \001(\t\022\025\n\rtaskResultNum\030\002 \001(\005\"\207\002\n\004Task" +
-      "\022\016\n\006taskId\030\001 \001(\005\022\020\n\010taskName\030\002 \001(\t\022\016\n\006us" +
-      "erId\030\003 \001(\005\022!\n\013taskProtocl\030\004 \001(\0162\014.TaskPr" +
-      "otocl\022\037\n\005shell\030\005 \003(\0132\020.Task.ShellEntry\022\020" +
-      "\n\010taskCost\030\006 \001(\005\022\020\n\010taskCons\030\007 \003(\005\022\033\n\006re" +
-      "sult\030\010 \003(\0132\013.TaskResult\022\016\n\006status\030\t \001(\010\032" +
-      "8\n\nShellEntry\022\013\n\003key\030\001 \001(\005\022\031\n\005value\030\002 \001(" +
-      "\0132\n.TaskShell:\0028\001\"u\n\006S_User\022\016\n\006userId\030\001 " +
-      "\001(\005\022\023\n\004user\030\002 \001(\0132\005.User\022\017\n\007taskIds\030\003 \003(" +
-      "\005\022\023\n\013doingTaskId\030\004 \001(\005\022\016\n\006online\030\005 \001(\010\022\020" +
-      "\n\010addTasks\030\006 \003(\005\"\241\001\n\010KafkaMsg\022\016\n\006userId\030" +
-      "\001 \001(\005\022\016\n\006taskId\030\002 \001(\005\022\017\n\007shellId\030\003 \001(\005\022\n" +
-      "\n\002ip\030\004 \001(\t\022\014\n\004port\030\005 \001(\t\022\020\n\010costTime\030\006 \001" +
-      "(\003\022\022\n\nrequestMsg\030\007 \001(\t\022\023\n\013responseMsg\030\010 " +
-      "\001(\t\022\017\n\007success\030\t \001(\010\"\231\001\n\013TaskConduct\022\016\n\006" +
-      "taskId\030\001 \001(\005\022\017\n\007userIds\030\002 \003(\005\0224\n\014shellMa" +
-      "pping\030\003 \003(\0132\036.TaskConduct.ShellMappingEn" +
-      "try\0323\n\021ShellMappingEntry\022\013\n\003key\030\001 \001(\005\022\r\n" +
-      "\005value\030\002 \001(\005:\0028\001\"*\n\013ResponseMsg\022\016\n\006statu" +
-      "s\030\001 \001(\010\022\013\n\003msg\030\002 \001(\t\"$\n\014ProdAddTasks\022\024\n\005" +
-      "tasks\030\001 \003(\0132\005.Task\"$\n\014ConsGetTasks\022\024\n\005ta" +
-      "sks\030\001 \003(\0132\005.Task\"#\n\021C2S_ProdStartTask\022\016\n" +
-      "\006taskId\030\001 \001(\005\".\n\021S2C_ProdStartTask\022\031\n\003ms" +
-      "g\030\001 \001(\0132\014.ResponseMsg\"&\n\017C2S_prodAddTask" +
-      "\022\023\n\004task\030\001 \001(\0132\005.Task\",\n\017S2C_prodAddTask" +
-      "\022\031\n\003msg\030\001 \001(\0132\014.ResponseMsg\"\"\n\020C2S_prod_" +
-      "EndTask\022\016\n\006taskId\030\001 \001(\005\"-\n\020S2C_prod_EndT" +
-      "ask\022\031\n\003msg\030\001 \001(\0132\014.ResponseMsg\"$\n\022C2S_pr" +
-      "od_GetResult\022\016\n\006taskId\030\001 \001(\005\"P\n\022S2C_prod" +
-      "_GetResult\022\031\n\003msg\030\001 \001(\0132\014.ResponseMsg\022\037\n" +
-      "\ntaskResult\030\002 \001(\0132\013.TaskResult\"\036\n\014C2S_Ge" +
-      "t_Task\022\016\n\006taskId\030\001 \001(\005\">\n\014S2C_Get_Task\022\031" +
-      "\n\003msg\030\001 \001(\0132\014.ResponseMsg\022\023\n\004task\030\002 \001(\0132" +
-      "\005.Task\")\n\027C2S_prod_GetAllAddTasks\022\016\n\006use" +
-      "rId\030\001 \001(\005\"R\n\027S2C_prod_GetAllAddTasks\022\034\n\005" +
-      "tasks\030\001 \001(\0132\r.ProdAddTasks\022\031\n\003msg\030\002 \001(\0132" +
-      "\014.ResponseMsg\".\n\021S2C_Cons_TakeTask\022\031\n\003ms" +
-      "g\030\001 \001(\0132\014.ResponseMsg\"3\n\021C2S_Cons_TakeTa" +
-      "sk\022\016\n\006taskId\030\001 \001(\005\022\016\n\006userId\030\002 \001(\005\"/\n\022S2" +
-      "C_Cons_StartTask\022\031\n\003msg\030\001 \001(\0132\014.Response" +
-      "Msg\"4\n\022C2S_Cons_StartTask\022\016\n\006taskId\030\001 \001(" +
-      "\005\022\016\n\006userId\030\002 \001(\005\"-\n\020S2C_Cons_EndTask\022\031\n" +
-      "\003msg\030\001 \001(\0132\014.ResponseMsg\"2\n\020C2S_Cons_End" +
-      "Task\022\016\n\006taskId\030\001 \001(\005\022\016\n\006userId\030\002 \001(\005\"-\n\020" +
-      "S2C_Cons_DelTask\022\031\n\003msg\030\001 \001(\0132\014.Response" +
-      "Msg\"2\n\020C2S_Cons_DelTask\022\016\n\006taskId\030\001 \001(\005\022" +
-      "\016\n\006userId\030\002 \001(\005\"O\n\024S2C_Cons_AllGetTasks\022" +
-      "\031\n\003msg\030\001 \001(\0132\014.ResponseMsg\022\034\n\005tasks\030\002 \001(" +
-      "\0132\r.ConsGetTasks\"&\n\024C2S_Cons_AllGetTasks" +
-      "\022\016\n\006userId\030\002 \001(\005\"2\n\025S2C_Es_DeleteToTestI" +
-      "d\022\031\n\003msg\030\001 \001(\0132\014.ResponseMsg\"A\n\006C_User\022\023" +
-      "\n\013doingTaskId\030\001 \001(\005\022\020\n\010getTasks\030\002 \003(\005\022\020\n" +
-      "\010addTasks\030\003 \003(\005*\365\006\n\005Types\022\010\n\004USER\020\000\022\r\n\tC" +
-      "2S_LOGIN\020\001\022\r\n\tS2C_LOGIN\020\002\022\020\n\014C2S_REGISTE" +
-      "R\020\003\022\020\n\014S2C_REGISTER\020\004\022\021\n\rC2S_UPDATEPWD\020\005" +
-      "\022\021\n\rS2C_UPDATEPWD\020\006\022\023\n\017C2S_UPDATEEMAIL\020\007" +
-      "\022\023\n\017S2C_UPDATEEMAIL\020\010\022\021\n\rC2S_UPDATEALL\020\t" +
-      "\022\021\n\rS2C_UPDATEALL\020\n\022\021\n\rC2S_UPDATETEL\020\013\022\021" +
-      "\n\rS2C_UPDATETEL\020\014\022\023\n\017C2S_BINDMAILBOX\020\r\022\023" +
-      "\n\017S2C_BINDMAILBOX\020\016\022\024\n\020C2S_CHECKMAILBOX\020" +
-      "\017\022\024\n\020S2C_CHECKMAILBOX\020\020\022\026\n\022S2C_CONS_TAKE" +
-      "_TASK\020\021\022\026\n\022C2S_CONS_TAKE_TASK\020\022\022\027\n\023S2C_C" +
-      "ONS_START_TASK\020\023\022\027\n\023C2S_CONS_START_TASK\020" +
-      "\024\022\025\n\021S2C_CONS_END_TASK\020\025\022\025\n\021C2S_CONS_END" +
-      "_TASK\020\026\022\024\n\020S2C_CNS_DEL_TASK\020\027\022\024\n\020C2S_CNS" +
-      "_DEL_TASK\020\030\022\032\n\026S2C_CONS_ALL_GET_TASKS\020\031\022" +
-      "\032\n\026C2S_CONS_ALL_GET_TASKS\020\032\022\027\n\023S2C_PROD_" +
-      "START_TASK\020#\022\027\n\023C2S_PROD_START_TASK\020$\022\025\n" +
-      "\021S2C_PROD_ADD_TASK\020%\022\025\n\021C2S_PROD_ADD_TAS" +
-      "K\020&\022\025\n\021S2C_PROD_END_TASK\020\'\022\025\n\021C2S_PROD_E" +
-      "ND_TASK\020(\022\026\n\022S2C_PROD_GETRESULT\020)\022\026\n\022C2S" +
-      "_PROD_GETRESULT\020*\022\020\n\014S2C_GET_TASK\020+\022\020\n\014C" +
-      "2S_GET_TASK\020,\022\036\n\032S2C_PROD_GET_ALL_ADD_TA" +
-      "SKS\020-\022\036\n\032C2S_PROD_GET_ALL_ADD_TASKS\020.\022\030\n" +
-      "\024ELASTICSEARCH_SEARCH\020/*3\n\013TaskProtocl\022\010" +
-      "\n\004NONE\020\000\022\010\n\004HTTP\020\001\022\007\n\003TCP\020\002\022\007\n\003UDP\020\003B\020\n\003" +
-      "ptoB\tTestProtob\006proto3"
+      "s\030\001 \001(\010\022\013\n\003msg\030\002 \001(\t\"\240\002\n\tTaskShell\022\017\n\007sh" +
+      "ellId\030\014 \001(\005\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\t\022$\n" +
+      "\005heads\030\003 \003(\0132\025.TaskShell.HeadsEntry\022\014\n\004b" +
+      "ody\030\004 \001(\t\022\014\n\004type\030\005 \001(\005\022\021\n\tcondition\030\006 \001" +
+      "(\005\022\024\n\014conditionMsg\030\007 \001(\t\022\024\n\014responseType" +
+      "\030\010 \001(\005\022\020\n\010respFind\030\t \001(\t\022\021\n\tstartTime\030\n " +
+      "\001(\003\022\024\n\014intervalTime\030\013 \001(\003\032,\n\nHeadsEntry\022" +
+      "\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"n\n\nTaskR" +
+      "esult\022\016\n\006taskId\030\001 \001(\005\022\022\n\nresultJson\030\002 \001(" +
+      "\t\022\021\n\tresultNum\030\003 \001(\003\022\022\n\nfailNumber\030\004 \001(\003" +
+      "\022\025\n\rsuccessNumber\030\005 \001(\003\"?\n\016TaskResultLis" +
+      "t\022\026\n\016taskResultList\030\001 \001(\t\022\025\n\rtaskResultN" +
+      "um\030\002 \001(\005\"\207\002\n\004Task\022\016\n\006taskId\030\001 \001(\005\022\020\n\010tas" +
+      "kName\030\002 \001(\t\022\016\n\006userId\030\003 \001(\005\022!\n\013taskProto" +
+      "cl\030\004 \001(\0162\014.TaskProtocl\022\037\n\005shell\030\005 \003(\0132\020." +
+      "Task.ShellEntry\022\020\n\010taskCost\030\006 \001(\005\022\020\n\010tas" +
+      "kCons\030\007 \003(\005\022\033\n\006result\030\010 \003(\0132\013.TaskResult" +
+      "\022\016\n\006status\030\t \001(\010\0328\n\nShellEntry\022\013\n\003key\030\001 " +
+      "\001(\005\022\031\n\005value\030\002 \001(\0132\n.TaskShell:\0028\001\"u\n\006S_" +
+      "User\022\016\n\006userId\030\001 \001(\005\022\023\n\004user\030\002 \001(\0132\005.Use" +
+      "r\022\017\n\007taskIds\030\003 \003(\005\022\023\n\013doingTaskId\030\004 \001(\005\022" +
+      "\016\n\006online\030\005 \001(\010\022\020\n\010addTasks\030\006 \003(\005\"\241\001\n\010Ka" +
+      "fkaMsg\022\016\n\006userId\030\001 \001(\005\022\016\n\006taskId\030\002 \001(\005\022\017" +
+      "\n\007shellId\030\003 \001(\005\022\n\n\002ip\030\004 \001(\t\022\014\n\004port\030\005 \001(" +
+      "\t\022\020\n\010costTime\030\006 \001(\003\022\022\n\nrequestMsg\030\007 \001(\t\022" +
+      "\023\n\013responseMsg\030\010 \001(\t\022\017\n\007success\030\t \001(\010\"\231\001" +
+      "\n\013TaskConduct\022\016\n\006taskId\030\001 \001(\005\022\017\n\007userIds" +
+      "\030\002 \003(\005\0224\n\014shellMapping\030\003 \003(\0132\036.TaskCondu" +
+      "ct.ShellMappingEntry\0323\n\021ShellMappingEntr" +
+      "y\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"*\n\013Res" +
+      "ponseMsg\022\016\n\006status\030\001 \001(\010\022\013\n\003msg\030\002 \001(\t\"$\n" +
+      "\014ProdAddTasks\022\024\n\005tasks\030\001 \003(\0132\005.Task\"$\n\014C" +
+      "onsGetTasks\022\024\n\005tasks\030\001 \003(\0132\005.Task\"#\n\021C2S" +
+      "_ProdStartTask\022\016\n\006taskId\030\001 \001(\005\".\n\021S2C_Pr" +
+      "odStartTask\022\031\n\003msg\030\001 \001(\0132\014.ResponseMsg\"&" +
+      "\n\017C2S_prodAddTask\022\023\n\004task\030\001 \001(\0132\005.Task\"," +
+      "\n\017S2C_prodAddTask\022\031\n\003msg\030\001 \001(\0132\014.Respons" +
+      "eMsg\"\"\n\020C2S_prod_EndTask\022\016\n\006taskId\030\001 \001(\005" +
+      "\"-\n\020S2C_prod_EndTask\022\031\n\003msg\030\001 \001(\0132\014.Resp" +
+      "onseMsg\"$\n\022C2S_prod_GetResult\022\016\n\006taskId\030" +
+      "\001 \001(\005\"P\n\022S2C_prod_GetResult\022\031\n\003msg\030\001 \001(\013" +
+      "2\014.ResponseMsg\022\037\n\ntaskResult\030\002 \001(\0132\013.Tas" +
+      "kResult\"\036\n\014C2S_Get_Task\022\016\n\006taskId\030\001 \001(\005\"" +
+      ">\n\014S2C_Get_Task\022\031\n\003msg\030\001 \001(\0132\014.ResponseM" +
+      "sg\022\023\n\004task\030\002 \001(\0132\005.Task\")\n\027C2S_prod_GetA" +
+      "llAddTasks\022\016\n\006userId\030\001 \001(\005\"R\n\027S2C_prod_G" +
+      "etAllAddTasks\022\034\n\005tasks\030\001 \001(\0132\r.ProdAddTa" +
+      "sks\022\031\n\003msg\030\002 \001(\0132\014.ResponseMsg\".\n\021S2C_Co" +
+      "ns_TakeTask\022\031\n\003msg\030\001 \001(\0132\014.ResponseMsg\"3" +
+      "\n\021C2S_Cons_TakeTask\022\016\n\006taskId\030\001 \001(\005\022\016\n\006u" +
+      "serId\030\002 \001(\005\"/\n\022S2C_Cons_StartTask\022\031\n\003msg" +
+      "\030\001 \001(\0132\014.ResponseMsg\"4\n\022C2S_Cons_StartTa" +
+      "sk\022\016\n\006taskId\030\001 \001(\005\022\016\n\006userId\030\002 \001(\005\"-\n\020S2" +
+      "C_Cons_EndTask\022\031\n\003msg\030\001 \001(\0132\014.ResponseMs" +
+      "g\"2\n\020C2S_Cons_EndTask\022\016\n\006taskId\030\001 \001(\005\022\016\n" +
+      "\006userId\030\002 \001(\005\"-\n\020S2C_Cons_DelTask\022\031\n\003msg" +
+      "\030\001 \001(\0132\014.ResponseMsg\"2\n\020C2S_Cons_DelTask" +
+      "\022\016\n\006taskId\030\001 \001(\005\022\016\n\006userId\030\002 \001(\005\"O\n\024S2C_" +
+      "Cons_AllGetTasks\022\031\n\003msg\030\001 \001(\0132\014.Response" +
+      "Msg\022\034\n\005tasks\030\002 \001(\0132\r.ConsGetTasks\"&\n\024C2S" +
+      "_Cons_AllGetTasks\022\016\n\006userId\030\002 \001(\005\"2\n\025S2C" +
+      "_Es_DeleteToTestId\022\031\n\003msg\030\001 \001(\0132\014.Respon" +
+      "seMsg\"A\n\006C_User\022\023\n\013doingTaskId\030\001 \001(\005\022\020\n\010" +
+      "getTasks\030\002 \003(\005\022\020\n\010addTasks\030\003 \003(\005*\365\006\n\005Typ" +
+      "es\022\010\n\004USER\020\000\022\r\n\tC2S_LOGIN\020\001\022\r\n\tS2C_LOGIN" +
+      "\020\002\022\020\n\014C2S_REGISTER\020\003\022\020\n\014S2C_REGISTER\020\004\022\021" +
+      "\n\rC2S_UPDATEPWD\020\005\022\021\n\rS2C_UPDATEPWD\020\006\022\023\n\017" +
+      "C2S_UPDATEEMAIL\020\007\022\023\n\017S2C_UPDATEEMAIL\020\010\022\021" +
+      "\n\rC2S_UPDATEALL\020\t\022\021\n\rS2C_UPDATEALL\020\n\022\021\n\r" +
+      "C2S_UPDATETEL\020\013\022\021\n\rS2C_UPDATETEL\020\014\022\023\n\017C2" +
+      "S_BINDMAILBOX\020\r\022\023\n\017S2C_BINDMAILBOX\020\016\022\024\n\020" +
+      "C2S_CHECKMAILBOX\020\017\022\024\n\020S2C_CHECKMAILBOX\020\020" +
+      "\022\026\n\022S2C_CONS_TAKE_TASK\020\021\022\026\n\022C2S_CONS_TAK" +
+      "E_TASK\020\022\022\027\n\023S2C_CONS_START_TASK\020\023\022\027\n\023C2S" +
+      "_CONS_START_TASK\020\024\022\025\n\021S2C_CONS_END_TASK\020" +
+      "\025\022\025\n\021C2S_CONS_END_TASK\020\026\022\024\n\020S2C_CNS_DEL_" +
+      "TASK\020\027\022\024\n\020C2S_CNS_DEL_TASK\020\030\022\032\n\026S2C_CONS" +
+      "_ALL_GET_TASKS\020\031\022\032\n\026C2S_CONS_ALL_GET_TAS" +
+      "KS\020\032\022\027\n\023S2C_PROD_START_TASK\020#\022\027\n\023C2S_PRO" +
+      "D_START_TASK\020$\022\025\n\021S2C_PROD_ADD_TASK\020%\022\025\n" +
+      "\021C2S_PROD_ADD_TASK\020&\022\025\n\021S2C_PROD_END_TAS" +
+      "K\020\'\022\025\n\021C2S_PROD_END_TASK\020(\022\026\n\022S2C_PROD_G" +
+      "ETRESULT\020)\022\026\n\022C2S_PROD_GETRESULT\020*\022\020\n\014S2" +
+      "C_GET_TASK\020+\022\020\n\014C2S_GET_TASK\020,\022\036\n\032S2C_PR" +
+      "OD_GET_ALL_ADD_TASKS\020-\022\036\n\032C2S_PROD_GET_A" +
+      "LL_ADD_TASKS\020.\022\030\n\024ELASTICSEARCH_SEARCH\020/" +
+      "*3\n\013TaskProtocl\022\010\n\004NONE\020\000\022\010\n\004HTTP\020\001\022\007\n\003T" +
+      "CP\020\002\022\007\n\003UDP\020\003B\020\n\003ptoB\tTestProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -41935,7 +42003,7 @@ pto.TestProto.TaskShell defaultValue);
     internal_static_TaskShell_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TaskShell_descriptor,
-        new java.lang.String[] { "Ip", "Port", "Heads", "Body", "Type", "Condition", "ConditionMsg", "ResponseType", "RespFind", "StartTime", "IntervalTime", });
+        new java.lang.String[] { "ShellId", "Ip", "Port", "Heads", "Body", "Type", "Condition", "ConditionMsg", "ResponseType", "RespFind", "StartTime", "IntervalTime", });
     internal_static_TaskShell_HeadsEntry_descriptor =
       internal_static_TaskShell_descriptor.getNestedTypes().get(0);
     internal_static_TaskShell_HeadsEntry_fieldAccessorTable = new

@@ -20,7 +20,6 @@ import pto.TestProto;
 
 public class ConnectionFactory {
 
-
     @Autowired
     private Schedule schedule;
     TestProto.TaskShell.Builder builder=TestProto.TaskShell.newBuilder();
@@ -31,7 +30,6 @@ public class ConnectionFactory {
     public static IConnection createHttp(TestProto.TaskShell.Builder shell){
         IConnection toUserByHttp=new toUserByHttp();
         toUserByHttp.setParameter(shell);
-        //调用zyb 工程模式
         return toUserByHttp;
     }
     public static IConnection createUdp(TestProto.TaskShell.Builder shell){
@@ -47,7 +45,6 @@ public class ConnectionFactory {
     }
 
     public static IConnection connection(TestProto.TaskProtocl type,TestProto.TaskShell.Builder shell){
-
         if(type.equals(TestProto.TaskProtocl.HTTP)){
             logger.info(LogBuilder.initLog(LogMsg.NET, OptionDetails.CONNECTION_CREATE_HTTP_OK));
             return createHttp(shell);
