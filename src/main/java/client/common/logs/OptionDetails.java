@@ -177,6 +177,16 @@ public enum OptionDetails {
     CLIENT_CONTEXT_ON_END_TASK("客户端上下文","成功","onEndTask执行成功"),
     CLIENT_CONTEXT_ON_LISTENER_SHELL("客户端上下文","成功","onListenerShell执行成功"),
     CLIENT_CONTEXT_ON_GET_USER_MSG("客户端上下文","成功","onGetUserMsg执行成功"),
+
+    //NET
+    CONNECTION_CREATE_ALL_FAIL("创建请求","失败","无此协议"),
+    CONNECTION_CREATE_HTTP_OK("创建HTTP请求","成功","创建HTTP请求成功"),
+    CONNECTION_CREATE_UDP_OK("创建UDP请求","成功","创建UDP请求成功"),
+    CONNECTION_CREATE_TCP_OK("创建TCP请求","成功","创建TCP请求成功"),
+
+    CONNECTION_SEND_HTTP_FAIL("发送HTTP请求","失败","发送HTTP请求成功"),
+    CONNECTION_SEND_UDP_FAIL("发送UDP请求","失败","发送UDP请求成功"),
+    CONNECTION_SEND_TCP_FAIL("发送TCP请求","失败","发送TCP请求成功")
     ;
     private String type;
     private String status;

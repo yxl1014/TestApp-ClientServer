@@ -16,6 +16,8 @@ public enum LogMsg {
 
     FILE("FILE"),
     KAFKA("KAFKA"),
+
+    NET("NET")
     ;
 
 

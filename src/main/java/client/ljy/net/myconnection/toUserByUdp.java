@@ -1,5 +1,10 @@
 package client.ljy.net.myconnection;
 
+import client.common.logs.LogBuilder;
+import client.common.logs.LogMsg;
+import client.common.logs.LogUtil;
+import client.common.logs.OptionDetails;
+import org.apache.logging.log4j.Logger;
 import pto.TestProto;
 
 import java.net.DatagramPacket;
@@ -8,7 +13,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class toUserByUdp implements IConnection {
-
+    private final static Logger logger = LogUtil.getLogger(toUserByUdp.class);
     private DatagramPacket dp;
     private InetAddress inetAddress;
     private DatagramSocket ds ;
@@ -42,6 +47,7 @@ public class toUserByUdp implements IConnection {
             int length =dp1.getLength();
             System.out.println(new String(data1,0,length));
         } catch (Exception e) {
+            logger.info(LogBuilder.initLog(LogMsg.NET, OptionDetails.CONNECTION_SEND_UDP_FAIL));
             throw new RuntimeException(e);
         }
         long end = System.currentTimeMillis();

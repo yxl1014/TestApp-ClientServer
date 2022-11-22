@@ -2,6 +2,7 @@ package client.common.util.config;
 
 import client.common.util.ProtocolUtil;
 import client.common.util.queue.CircleArrayQueue;
+import client.ljy.net.factory.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,10 @@ public class UtilConfig {
         return new ProtocolUtil();
     }
 
-
+    @Bean
+    public ConnectionFactory getConnectionFactory(){
+        return new ConnectionFactory();
+    }
     @Bean
     public CircleArrayQueue<TestProto.Task> getTaskQueue() {
         return new CircleArrayQueue<>(this.taskCacheSize);
