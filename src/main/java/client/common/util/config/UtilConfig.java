@@ -16,7 +16,7 @@ import pto.TestProto;
 @Configuration
 public class UtilConfig {
 
-    @Value("local.taskCache.size")
+    @Value("${local.taskCache.size}")
     private int taskCacheSize;
 
     @Bean

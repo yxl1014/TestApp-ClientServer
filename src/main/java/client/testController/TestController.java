@@ -21,6 +21,7 @@ public class TestController {
     @GetMapping("test")
     public String test() {
         logger.info(LogBuilder.initLog(LogMsg.TEST, OptionDetails.TEST_OK).log());
+        System.out.println(LogBuilder.initLog(LogMsg.TEST, OptionDetails.TEST_OK).log());
         return "test";
     }
 }

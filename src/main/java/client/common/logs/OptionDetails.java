@@ -6,9 +6,12 @@ package client.common.logs;
  */
 public enum OptionDetails {
 
-    //---------------------LoginServer---------------------
     //测试
     TEST_OK("测试", "成功", "无敌"),
+    KAFKA_CONSUMER_TEST("kafka监听test","成功","收到的数据"),
+
+    //---------------------LoginServer---------------------
+
 
     //自定义协议
     PROTOCOL_ERROR("协议错误", "失败", "协议错误"),
