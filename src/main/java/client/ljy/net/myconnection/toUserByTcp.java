@@ -16,8 +16,9 @@ public class toUserByTcp implements IConnection {
     private final static Logger logger = LogUtil.getLogger(toUserByTcp.class);
     private Socket socket = null;
     private TestProto.TaskShell.Builder shell;
+    private TestProto.ConnectionResulte.Builder connectBody;
     @Override
-    public void sendRequest() {
+    public TestProto.ConnectionResulte.Builder sendRequest() {
         long start = System.currentTimeMillis();
         try {
         OutputStream os= socket.getOutputStream();
@@ -27,7 +28,10 @@ public class toUserByTcp implements IConnection {
             throw new RuntimeException(e);
         }
         long end = System.currentTimeMillis();
-        System.out.println(String.format("Total Time：%d ms", end - start));
+        connectBody.setType("1");
+        connectBody.setBody(shell.getBody().toString());
+        connectBody.setTime(end-start);
+        return connectBody;
     }
 
 
