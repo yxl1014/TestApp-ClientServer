@@ -177,7 +177,6 @@ enum TaskProtocl{
 }
 
 message TaskShell{
-  int32  shellId = 12;
   string ip = 1;                      //请求IP
   string port = 2;                    //请求Port
   map<string, string> heads = 3;      //报文头信息
@@ -189,6 +188,7 @@ message TaskShell{
   string respFind = 9;                //先行条件获取关键字
   int64 startTime = 10;               //开始时间
   int64 intervalTime = 11;            //间隔时间
+  int32  shellId = 12;                //shellID
 }
 
 message TaskResult{

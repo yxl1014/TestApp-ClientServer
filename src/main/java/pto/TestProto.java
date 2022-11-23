@@ -14163,12 +14163,6 @@ public final class TestProto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 shellId = 12;</code>
-     * @return The shellId.
-     */
-    int getShellId();
-
-    /**
      * <pre>
      *请求IP
      * </pre>
@@ -14373,6 +14367,16 @@ java.lang.String defaultValue);
      * @return The intervalTime.
      */
     long getIntervalTime();
+
+    /**
+     * <pre>
+     *shellID
+     * </pre>
+     *
+     * <code>int32 shellId = 12;</code>
+     * @return The shellId.
+     */
+    int getShellId();
   }
   /**
    * Protobuf type {@code TaskShell}
@@ -14542,17 +14546,6 @@ java.lang.String defaultValue);
       return pto.TestProto.internal_static_TaskShell_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               pto.TestProto.TaskShell.class, pto.TestProto.TaskShell.Builder.class);
-    }
-
-    public static final int SHELLID_FIELD_NUMBER = 12;
-    private int shellId_;
-    /**
-     * <code>int32 shellId = 12;</code>
-     * @return The shellId.
-     */
-    @java.lang.Override
-    public int getShellId() {
-      return shellId_;
     }
 
     public static final int IP_FIELD_NUMBER = 1;
@@ -14957,6 +14950,21 @@ java.lang.String defaultValue);
       return intervalTime_;
     }
 
+    public static final int SHELLID_FIELD_NUMBER = 12;
+    private int shellId_;
+    /**
+     * <pre>
+     *shellID
+     * </pre>
+     *
+     * <code>int32 shellId = 12;</code>
+     * @return The shellId.
+     */
+    @java.lang.Override
+    public int getShellId() {
+      return shellId_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -15083,8 +15091,6 @@ java.lang.String defaultValue);
       }
       pto.TestProto.TaskShell other = (pto.TestProto.TaskShell) obj;
 
-      if (getShellId()
-          != other.getShellId()) return false;
       if (!getIp()
           .equals(other.getIp())) return false;
       if (!getPort()
@@ -15107,6 +15113,8 @@ java.lang.String defaultValue);
           != other.getStartTime()) return false;
       if (getIntervalTime()
           != other.getIntervalTime()) return false;
+      if (getShellId()
+          != other.getShellId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -15118,8 +15126,6 @@ java.lang.String defaultValue);
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + SHELLID_FIELD_NUMBER;
-      hash = (53 * hash) + getShellId();
       hash = (37 * hash) + IP_FIELD_NUMBER;
       hash = (53 * hash) + getIp().hashCode();
       hash = (37 * hash) + PORT_FIELD_NUMBER;
@@ -15146,6 +15152,8 @@ java.lang.String defaultValue);
       hash = (37 * hash) + INTERVALTIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getIntervalTime());
+      hash = (37 * hash) + SHELLID_FIELD_NUMBER;
+      hash = (53 * hash) + getShellId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -15301,8 +15309,6 @@ java.lang.String defaultValue);
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        shellId_ = 0;
-
         ip_ = "";
 
         port_ = "";
@@ -15323,6 +15329,8 @@ java.lang.String defaultValue);
         startTime_ = 0L;
 
         intervalTime_ = 0L;
+
+        shellId_ = 0;
 
         return this;
       }
@@ -15351,7 +15359,6 @@ java.lang.String defaultValue);
       public pto.TestProto.TaskShell buildPartial() {
         pto.TestProto.TaskShell result = new pto.TestProto.TaskShell(this);
         int from_bitField0_ = bitField0_;
-        result.shellId_ = shellId_;
         result.ip_ = ip_;
         result.port_ = port_;
         result.heads_ = internalGetHeads();
@@ -15364,6 +15371,7 @@ java.lang.String defaultValue);
         result.respFind_ = respFind_;
         result.startTime_ = startTime_;
         result.intervalTime_ = intervalTime_;
+        result.shellId_ = shellId_;
         onBuilt();
         return result;
       }
@@ -15412,9 +15420,6 @@ java.lang.String defaultValue);
 
       public Builder mergeFrom(pto.TestProto.TaskShell other) {
         if (other == pto.TestProto.TaskShell.getDefaultInstance()) return this;
-        if (other.getShellId() != 0) {
-          setShellId(other.getShellId());
-        }
         if (!other.getIp().isEmpty()) {
           ip_ = other.ip_;
           onChanged();
@@ -15452,6 +15457,9 @@ java.lang.String defaultValue);
         if (other.getIntervalTime() != 0L) {
           setIntervalTime(other.getIntervalTime());
         }
+        if (other.getShellId() != 0) {
+          setShellId(other.getShellId());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -15481,37 +15489,6 @@ java.lang.String defaultValue);
         return this;
       }
       private int bitField0_;
-
-      private int shellId_ ;
-      /**
-       * <code>int32 shellId = 12;</code>
-       * @return The shellId.
-       */
-      @java.lang.Override
-      public int getShellId() {
-        return shellId_;
-      }
-      /**
-       * <code>int32 shellId = 12;</code>
-       * @param value The shellId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setShellId(int value) {
-        
-        shellId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 shellId = 12;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearShellId() {
-        
-        shellId_ = 0;
-        onChanged();
-        return this;
-      }
 
       private java.lang.Object ip_ = "";
       /**
@@ -16363,6 +16340,49 @@ java.lang.String defaultValue);
       public Builder clearIntervalTime() {
         
         intervalTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int shellId_ ;
+      /**
+       * <pre>
+       *shellID
+       * </pre>
+       *
+       * <code>int32 shellId = 12;</code>
+       * @return The shellId.
+       */
+      @java.lang.Override
+      public int getShellId() {
+        return shellId_;
+      }
+      /**
+       * <pre>
+       *shellID
+       * </pre>
+       *
+       * <code>int32 shellId = 12;</code>
+       * @param value The shellId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setShellId(int value) {
+        
+        shellId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *shellID
+       * </pre>
+       *
+       * <code>int32 shellId = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearShellId() {
+        
+        shellId_ = 0;
         onChanged();
         return this;
       }
@@ -41797,13 +41817,13 @@ pto.TestProto.TaskShell defaultValue);
       "MailBox\022\016\n\006status\030\001 \001(\010\022\013\n\003msg\030\002 \001(\t\"5\n\020" +
       "C2S_CheckMailBox\022\014\n\004code\030\001 \001(\t\022\023\n\004user\030\002" +
       " \001(\0132\005.User\"/\n\020S2C_CheckMailBox\022\016\n\006statu" +
-      "s\030\001 \001(\010\022\013\n\003msg\030\002 \001(\t\"\240\002\n\tTaskShell\022\017\n\007sh" +
-      "ellId\030\014 \001(\005\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\t\022$\n" +
-      "\005heads\030\003 \003(\0132\025.TaskShell.HeadsEntry\022\014\n\004b" +
-      "ody\030\004 \001(\t\022\014\n\004type\030\005 \001(\005\022\021\n\tcondition\030\006 \001" +
-      "(\005\022\024\n\014conditionMsg\030\007 \001(\t\022\024\n\014responseType" +
-      "\030\010 \001(\005\022\020\n\010respFind\030\t \001(\t\022\021\n\tstartTime\030\n " +
-      "\001(\003\022\024\n\014intervalTime\030\013 \001(\003\032,\n\nHeadsEntry\022" +
+      "s\030\001 \001(\010\022\013\n\003msg\030\002 \001(\t\"\240\002\n\tTaskShell\022\n\n\002ip" +
+      "\030\001 \001(\t\022\014\n\004port\030\002 \001(\t\022$\n\005heads\030\003 \003(\0132\025.Ta" +
+      "skShell.HeadsEntry\022\014\n\004body\030\004 \001(\t\022\014\n\004type" +
+      "\030\005 \001(\005\022\021\n\tcondition\030\006 \001(\005\022\024\n\014conditionMs" +
+      "g\030\007 \001(\t\022\024\n\014responseType\030\010 \001(\005\022\020\n\010respFin" +
+      "d\030\t \001(\t\022\021\n\tstartTime\030\n \001(\003\022\024\n\014intervalTi" +
+      "me\030\013 \001(\003\022\017\n\007shellId\030\014 \001(\005\032,\n\nHeadsEntry\022" +
       "\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"n\n\nTaskR" +
       "esult\022\016\n\006taskId\030\001 \001(\005\022\022\n\nresultJson\030\002 \001(" +
       "\t\022\021\n\tresultNum\030\003 \001(\003\022\022\n\nfailNumber\030\004 \001(\003" +
@@ -42003,7 +42023,7 @@ pto.TestProto.TaskShell defaultValue);
     internal_static_TaskShell_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TaskShell_descriptor,
-        new java.lang.String[] { "ShellId", "Ip", "Port", "Heads", "Body", "Type", "Condition", "ConditionMsg", "ResponseType", "RespFind", "StartTime", "IntervalTime", });
+        new java.lang.String[] { "Ip", "Port", "Heads", "Body", "Type", "Condition", "ConditionMsg", "ResponseType", "RespFind", "StartTime", "IntervalTime", "ShellId", });
     internal_static_TaskShell_HeadsEntry_descriptor =
       internal_static_TaskShell_descriptor.getNestedTypes().get(0);
     internal_static_TaskShell_HeadsEntry_fieldAccessorTable = new
