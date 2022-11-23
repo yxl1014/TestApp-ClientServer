@@ -51,8 +51,6 @@ public class toUserByHttp implements IConnection {
 
         long end = System.currentTimeMillis();
         System.out.println(String.format("Total Time：%d ms", end - start));
-        
-        
     }
 
 
