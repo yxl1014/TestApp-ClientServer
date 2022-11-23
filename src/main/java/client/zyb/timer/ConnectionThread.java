@@ -21,25 +21,30 @@ import java.util.concurrent.TimeUnit;
  * @Author zhang
  * @Date 2022/11/21
  */
-public class ConnectionThread  implements Runnable {
-    @Autowired
+public class ConnectionThread implements Runnable {
+
+
     private ClientContext clientContext;
     @Autowired
     private KafkaProducerPoll kafkaProducerPoll;
     private IConnection iConnection;
     private TestProto.TaskShell.Builder taskShell;
     public static ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(5);
-    public void init(IConnection iConnection, TestProto.TaskShell.Builder taskShell)
-    {
+
+    public void init(IConnection iConnection, TestProto.TaskShell.Builder taskShell, ClientContext clientContext) {
         this.iConnection = iConnection;
         this.taskShell = taskShell;
+        this.clientContext = clientContext;
     }
-    public ConnectionThread(){}
-    public void startSchedule()
-        {
-            long delay = getDelay(taskShell.getStartTime(),Instant.now().getEpochSecond(),taskShell.getIntervalTime());
-            scheduledExecutorService.schedule(this::run,delay, TimeUnit.SECONDS);
-        }
+
+    public ConnectionThread() {
+    }
+
+    public void startSchedule() {
+        long delay = getDelay(taskShell.getStartTime(), Instant.now().getEpochSecond(), taskShell.getIntervalTime());
+        scheduledExecutorService.schedule(this::run, delay, TimeUnit.SECONDS);
+    }
+
     @Override
     public void run() {
         TestProto.KafkaMsg.Builder kafkaMag = null;
@@ -50,7 +55,7 @@ public class ConnectionThread  implements Runnable {
         long end = System.currentTimeMillis();
 
         //给kafkaMsg添加数据
-        int taskId = 0 ;
+        int taskId = 0;
         kafkaMag.setUserId(clientContext.getUserId());
         String body = clientContext.getTaskShell().getBody();
         try {
@@ -67,16 +72,16 @@ public class ConnectionThread  implements Runnable {
         kafkaMag.setRequestMsg(null);
         kafkaMag.setResponseMsg(null);
         kafkaMag.setSuccess(true);
-        String kafkaMagJson = null ;
+        String kafkaMagJson = null;
         try {
-            JsonFormat.parser().merge(kafkaMagJson,kafkaMag);
+            JsonFormat.parser().merge(kafkaMagJson, kafkaMag);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
-        kafkaProducerPoll.sendMsg(taskId,clientContext.getUserId(),taskShell.getShellId(),kafkaMagJson);
+        kafkaProducerPoll.sendMsg(taskId, clientContext.getUserId(), taskShell.getShellId(), kafkaMagJson);
     }
-    private long getDelay(long startTime, long nowSecond, long intervalTime)
-    {
+
+    private long getDelay(long startTime, long nowSecond, long intervalTime) {
         return startTime - nowSecond + intervalTime;
     }
 }

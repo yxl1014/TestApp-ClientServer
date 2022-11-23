@@ -169,6 +169,7 @@ public enum OptionDetails {
     WRITE_FILE_TOKEN_OK("写入文件","成功","token写入成功"),
     //clientContext
     CLIENT_CONTEXT_ON_LOGIN_OK("客户端上下文","成功","onLogin执行成功"),
+    CLIENT_CONTEXT_ON_INIT_START("客户端上下文","开始","onInit开始执行"),
     CLIENT_CONTEXT_ON_INIT_OK("客户端上下文","成功","onInit执行成功"),
     CLIENT_CONTEXT_ON_GET_TASK("客户端上下文","成功","onGetTask执行成功"),
     CLIENT_CONTEXT_ON_GET_TASK_LIST("客户端上下文","成功","onGetTask_List执行成功"),
