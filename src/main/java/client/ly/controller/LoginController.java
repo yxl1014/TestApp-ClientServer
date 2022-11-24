@@ -1,9 +1,13 @@
-package client.ly;
+package client.ly.controller;
 
+import client.common.resource.PublicData;
 import client.common.util.ProtocolUtil;
 import client.ly.service.SendHttp;
+import client.yxl.context.ClientContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pto.TestProto;
@@ -11,15 +15,21 @@ import pto.TestProto;
 
 @RestController
 @RequestMapping("/user")
-public class TestServer {
+public class LoginController {
     SendHttp sendHttp=new SendHttp();
+
+
 
   //  private final RankProto.rank.Builder rankBuilder = RankProto.rank.newBuilder();
 
+    @Autowired
+    private PublicData publicData;
 
-    private final String url1 = "http://localhost:11111/user";
+    private final String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user";
+
+
     @PostMapping("/login")
-    public void Login(String un, String pwd) {
+    public void Login(@RequestBody String un, @RequestBody String pwd) {
         TestProto.User.Builder builder = TestProto.User.newBuilder();
         builder.setUserTel(un);
         builder.setUserPassword(pwd);
@@ -38,7 +48,7 @@ public class TestServer {
     }
 
     @PostMapping("/register")
-    public void Register(String un, String pwd){
+    public void Register(@RequestBody String un, @RequestBody String pwd){
         TestProto.User.Builder builder = TestProto.User.newBuilder();
         builder.setUserTel(un);
         builder.setUserPassword(pwd);
@@ -55,7 +65,7 @@ public class TestServer {
         System.out.println(result);
     }
     @PostMapping("/updatePwdById")
-    public void updatePwdById(int id,String pwd){
+    public void updatePwdById(@RequestBody int id,@RequestBody String pwd){
         TestProto.User.Builder builder= TestProto.User.newBuilder();
         builder.setUserId(id);
         builder.setUserPassword(pwd);
@@ -73,7 +83,8 @@ public class TestServer {
     }
 
     @PostMapping("/updateAllById")
-    public void updateAllById(String userName,String userIp,String userPos,String userCompany,String userHome,int userId){
+    public void updateAllById(@RequestBody String userName,@RequestBody String userIp,@RequestBody String userPos,
+                              @RequestBody String userCompany,@RequestBody String userHome,@RequestBody int userId){
         TestProto.User.Builder builder= TestProto.User.newBuilder();
         builder.setUserName(userName);
         builder.setUserIp(userIp);
@@ -94,7 +105,7 @@ public class TestServer {
     }
 
     @PostMapping("/updateEmailById")
-    public void updateEmailById(int id,String email){
+    public void updateEmailById(@RequestBody int id,@RequestBody String email){
         TestProto.User.Builder builder= TestProto.User.newBuilder();
         builder.setUserId(id);
         builder.setUserEmail(email);
@@ -112,7 +123,7 @@ public class TestServer {
     }
 
     @PostMapping("/updateTelById")
-    public void updateTelById(int id,String tel){
+    public void updateTelById(@RequestBody int id,@RequestBody String tel){
         TestProto.User.Builder builder= TestProto.User.newBuilder();
         builder.setUserId(id);
         builder.setUserTel(tel);
@@ -131,7 +142,7 @@ public class TestServer {
 
     //绑定邮箱
     @PostMapping("/bindMailbox")
-    public void bindMailbox(int id,String email){
+    public void bindMailbox(@RequestBody int id,@RequestBody String email){
         TestProto.User.Builder builder= TestProto.User.newBuilder();
         builder.setUserId(id);
         builder.setUserEmail(email);
@@ -151,7 +162,7 @@ public class TestServer {
 
     //验证邮箱
     @PostMapping("/checkMailbox")
-    public void checkMailbox(int id,String email ,String code){
+    public void checkMailbox(@RequestBody int id,@RequestBody String email ,@RequestBody String code){
         TestProto.User.Builder builder= TestProto.User.newBuilder();
         builder.setUserId(id);
         builder.setUserEmail(email);

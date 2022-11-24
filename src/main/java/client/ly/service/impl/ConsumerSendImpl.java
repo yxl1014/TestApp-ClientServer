@@ -1,7 +1,8 @@
-package client.ly.service;
+package client.ly.service.impl;
 
 import client.common.resource.PublicData;
 import client.common.util.ProtocolUtil;
+import client.ly.service.ConsumerSend;
 import client.yxl.context.ClientContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,22 +15,24 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class SendHttp {
+@Service
+public class ConsumerSendImpl implements ConsumerSend {
 
     @Autowired
-    private PublicData  publicData;
+    private PublicData publicData;
+
+    private final String url= "http://" + publicData.getMAIN_SERVER_IP() + ":" + publicData.getMAIN_SERVER_PORT() + "/Consumer";
 
     @Autowired
     private ClientContext clientContext;
 
-    private final String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user";
-
-    public String sendHttp_login(byte[] data, String controller) {
+    @Override
+    public byte[] getTask(byte[] data, String controller) {
         OutputStream out = null;
         InputStream inputStream = null;
-        StringBuilder result = new StringBuilder();
+        byte[] bytes1= null;
         try {
-            URL realUrl = new URL(url1 + controller);
+            URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
             HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
 
@@ -56,10 +59,9 @@ public class SendHttp {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_Login s2C_login = TestProto.S2C_Login.parseFrom(bytes);
-            result.append(s2C_login.getStatus()).append(s2C_login.getMsg());
-            clientContext.onLogin(s2C_login);
-
+            TestProto.S2C_Get_Task s2C_get_task = TestProto.S2C_Get_Task.parseFrom(bytes);
+            clientContext.onGetTask(s2C_get_task.getTask());
+            bytes1=s2C_get_task.toByteArray();
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
@@ -75,17 +77,16 @@ public class SendHttp {
                 ex.printStackTrace();
             }
         }
-
-        return result.toString();
-
+        return bytes1;
     }
 
-    public String sendHttp_Register(byte[] data, String controller) {
+    @Override
+    public byte[] takeTask(byte[] data, String controller) {
         OutputStream out = null;
         InputStream inputStream = null;
-        StringBuilder result = new StringBuilder();
+        byte[] bytes1= null;
         try {
-            URL realUrl = new URL(url1 + controller);
+            URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
             HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
 
@@ -112,10 +113,8 @@ public class SendHttp {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_Register s2C_rester = TestProto.S2C_Register.parseFrom(bytes);
-            result.append(s2C_rester.getStatus()).append(s2C_rester.getMsg());
-
-
+            TestProto.S2C_Cons_TakeTask s2C_cons_takeTask = TestProto.S2C_Cons_TakeTask.parseFrom(bytes);
+            bytes1=s2C_cons_takeTask.toByteArray();
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
@@ -131,16 +130,16 @@ public class SendHttp {
                 ex.printStackTrace();
             }
         }
-
-        return result.toString();
+        return bytes1;
     }
 
-    public String sendHttp_updatepwd(byte[] data, String controller) {
+    @Override
+    public byte[] startTask(byte[] data, String controller,int taskId) {
         OutputStream out = null;
         InputStream inputStream = null;
-        StringBuilder result = new StringBuilder();
+        byte[] bytes1= null;
         try {
-            URL realUrl = new URL(url1 + controller);
+            URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
             HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
 
@@ -167,10 +166,9 @@ public class SendHttp {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_UpdateAll s2C_updatePwd = TestProto.S2C_UpdateAll.parseFrom(bytes);
-            result.append(s2C_updatePwd.getStatus()).append(s2C_updatePwd.getMsg());
-
-
+            TestProto.S2C_Cons_StartTask s2C_cons_startTask = TestProto.S2C_Cons_StartTask.parseFrom(bytes);
+            clientContext.onStartTask(taskId);
+            bytes1=s2C_cons_startTask.toByteArray();
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
@@ -186,16 +184,16 @@ public class SendHttp {
                 ex.printStackTrace();
             }
         }
-
-        return result.toString();
+        return bytes1;
     }
 
-    public String sendHttp_updateEmailByTle(byte[] data, String controller) {
+    @Override
+    public byte[] endTask(byte[] data, String controller) {
         OutputStream out = null;
         InputStream inputStream = null;
-        StringBuilder result = new StringBuilder();
+        byte[] bytes1= null;
         try {
-            URL realUrl = new URL(url1 + controller);
+            URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
             HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
 
@@ -222,10 +220,9 @@ public class SendHttp {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_UpdateTel s2C_updateTel = TestProto.S2C_UpdateTel.parseFrom(bytes);
-            result.append(s2C_updateTel.getStatus()).append(s2C_updateTel.getMsg());
-
-
+            TestProto.S2C_Cons_EndTask s2C_cons_endTask = TestProto.S2C_Cons_EndTask.parseFrom(bytes);
+            clientContext.onEndTask();
+            bytes1=s2C_cons_endTask.toByteArray();
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
@@ -241,18 +238,16 @@ public class SendHttp {
                 ex.printStackTrace();
             }
         }
-
-        return result.toString();
+        return bytes1;
     }
 
-
-
-    public String sendHttp_bindMailbox(byte[] data, String controller) {
+    @Override
+    public byte[] delTask(byte[] data, String controller) {
         OutputStream out = null;
         InputStream inputStream = null;
-        StringBuilder result = new StringBuilder();
+        byte[] bytes1= null;
         try {
-            URL realUrl = new URL(url1 + controller);
+            URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
             HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
 
@@ -279,10 +274,8 @@ public class SendHttp {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_BindMailBox s2C_updateTel = TestProto.S2C_BindMailBox.parseFrom(bytes);
-            result.append(s2C_updateTel.getStatus()).append(s2C_updateTel.getMsg());
-
-
+            TestProto.S2C_Cons_DelTask s2C_cons_delTask = TestProto.S2C_Cons_DelTask.parseFrom(bytes);
+            bytes1=s2C_cons_delTask.toByteArray();
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
@@ -298,17 +291,16 @@ public class SendHttp {
                 ex.printStackTrace();
             }
         }
-
-        return result.toString();
+        return bytes1;
     }
 
-
-    public String sendHttp_checkMailbox(byte[] data, String controller) {
+    @Override
+    public byte[] allGetTask(byte[] data, String controller) {
         OutputStream out = null;
         InputStream inputStream = null;
-        StringBuilder result = new StringBuilder();
+        byte[] bytes1= null;
         try {
-            URL realUrl = new URL(url1 + controller);
+            URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
             HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
 
@@ -335,10 +327,9 @@ public class SendHttp {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_CheckMailBox s2C_updateTel = TestProto.S2C_CheckMailBox.parseFrom(bytes);
-            result.append(s2C_updateTel.getStatus()).append(s2C_updateTel.getMsg());
-
-
+            TestProto.S2C_Cons_AllGetTasks s2C_cons_allGetTasks = TestProto.S2C_Cons_AllGetTasks.parseFrom(bytes);
+            clientContext.onGetTask(s2C_cons_allGetTasks.getTasks().getTasksList());
+            bytes1=s2C_cons_allGetTasks.toByteArray();
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
@@ -354,8 +345,6 @@ public class SendHttp {
                 ex.printStackTrace();
             }
         }
-
-        return result.toString();
+        return bytes1;
     }
-
 }
