@@ -18,6 +18,7 @@ public class toUserByUdp implements IConnection {
     private InetAddress inetAddress;
     private DatagramSocket ds ;
     private DatagramPacket dp1 ;
+    private TestProto.ConnectionResulte.Builder connectBody;
 
     @Override
     public void setParameter(TestProto.TaskShell.Builder shell) {
@@ -34,7 +35,7 @@ public class toUserByUdp implements IConnection {
 
 
     @Override
-    public void sendRequest() {
+    public TestProto.ConnectionResulte.Builder sendRequest() {
         long start = System.currentTimeMillis();
 
         try {
@@ -47,11 +48,15 @@ public class toUserByUdp implements IConnection {
             int length =dp1.getLength();
             System.out.println(new String(data1,0,length));
         } catch (Exception e) {
+            connectBody.setType("2");
             logger.info(LogBuilder.initLog(LogMsg.NET, OptionDetails.CONNECTION_SEND_UDP_FAIL));
             throw new RuntimeException(e);
         }
         long end = System.currentTimeMillis();
-        System.out.println(String.format("Total Time：%d ms", end - start));
+        connectBody.setType("1");
+        connectBody.setBody(dp1.toString());
+        connectBody.setTime(end-start);
+        return connectBody;
     }
 }
 
