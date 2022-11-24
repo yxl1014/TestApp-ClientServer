@@ -81,6 +81,10 @@ public class ClientContext {
      */
     private final TestProto.C_User.Builder cUser = TestProto.C_User.newBuilder();
 
+    public TestProto.C_User.Builder getcUser() {
+        return cUser;
+    }
+
     /**
      * 正在执行的任务shell
      */

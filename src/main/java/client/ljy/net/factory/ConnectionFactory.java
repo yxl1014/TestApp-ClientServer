@@ -9,8 +9,6 @@ import client.ljy.net.myconnection.IConnection;
 import client.ljy.net.myconnection.toUserByHttp;
 import client.ljy.net.myconnection.toUserByTcp;
 import client.ljy.net.myconnection.toUserByUdp;
-import client.yxl.kafka.producer.KafkaProducerPoll;
-import client.zyb.timer.Schedule;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

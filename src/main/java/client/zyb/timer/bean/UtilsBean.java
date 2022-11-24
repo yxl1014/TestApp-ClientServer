@@ -1,17 +1,18 @@
-package client.zyb.timer;
+package client.zyb.timer.bean;
 
+import client.zyb.util.utils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * @Author zhang
- * @Date 2022/11/1
+ * @Date 2022/11/23
  */
 @Configuration
-public class ScheduleBean {
+public class UtilsBean {
     @Bean
-    public Schedule getSchedule()
+    public utils getUtils()
     {
-        return new Schedule();
+        return new utils();
     }
 }

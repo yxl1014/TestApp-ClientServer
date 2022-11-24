@@ -57,8 +57,8 @@ public class toUserByHttp implements IConnection {
         connectBody.setBody(result.toString());
         connectBody.setTime(end-start);
         System.out.println(String.format("Total Time：%d ms", end - start));
-
         return connectBody;
+
     }
 
 
