@@ -22,9 +22,12 @@ public class toUserByHttp implements IConnection {
 
     private TestProto.TaskShell.Builder shell;
 
+    private TestProto.ConnectionResulte.Builder connectBody;
+
 
     @Override
-    public void sendRequest() {
+    public TestProto.ConnectionResulte.Builder sendRequest() {
+
         long start = System.currentTimeMillis();
 
         StringBuilder result = new StringBuilder();
@@ -37,7 +40,6 @@ public class toUserByHttp implements IConnection {
             out.write(String.valueOf(shell.getBodyBytes()));
             out.flush();
             connection.connect();
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
             while ((line = in.readLine()) != null)
             {
@@ -45,14 +47,18 @@ public class toUserByHttp implements IConnection {
             }
 
         } catch (IOException e) {
+            connectBody.setType("2");
             logger.info(LogBuilder.initLog(LogMsg.NET, OptionDetails.CONNECTION_SEND_HTTP_FAIL));
             throw new RuntimeException(e);
         }
 
         long end = System.currentTimeMillis();
+        connectBody.setType("1");
+        connectBody.setBody(result.toString());
+        connectBody.setTime(end-start);
         System.out.println(String.format("Total Time：%d ms", end - start));
-        
-        
+        return connectBody;
+
     }
 
 

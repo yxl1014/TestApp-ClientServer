@@ -7,7 +7,10 @@ import client.common.logs.OptionDetails;
 import client.common.util.FileCommon;
 import client.common.util.JWTUtil;
 import client.common.util.queue.CircleArrayQueue;
+import client.ljy.net.factory.ConnectionFactory;
+import client.ljy.net.myconnection.IConnection;
 import client.yxl.kafka.consumer.common.KafkaConsumerConnectPoll;
+import client.zyb.timer.Schedule;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.Getter;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pto.TestProto;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Queue;
 
@@ -77,6 +81,10 @@ public class ClientContext {
      */
     private final TestProto.C_User.Builder cUser = TestProto.C_User.newBuilder();
 
+    public TestProto.C_User.Builder getcUser() {
+        return cUser;
+    }
+
     /**
      * 正在执行的任务shell
      */
@@ -86,19 +94,35 @@ public class ClientContext {
         return taskShell;
     }
 
+    /**
+     * to被测端链接工厂
+     */
+    private final ConnectionFactory connectionFactory;
+
 
     public ClientContext(FileCommon fileCommon,
                          CircleArrayQueue<TestProto.Task> taskCacheQueue,
-                         KafkaConsumerConnectPoll consumerPoll) {
+                         KafkaConsumerConnectPoll consumerPoll,
+                         ConnectionFactory connectionFactory,
+                         Schedule schedule) {
         this.fileCommon = fileCommon;
         this.taskCacheQueue = taskCacheQueue;
         this.consumerPoll = consumerPoll;
+        this.connectionFactory = connectionFactory;
+        this.schedule = schedule;
     }
+
+    /**
+     * 连续测试请求器
+     */
+    private final Schedule schedule;
 
     /**
      * 在服务启动的时候调用这个方法
      */
+    @PostConstruct
     public void onInit() {
+        logger.info(LogBuilder.initLog(LogMsg.TOKEN, OptionDetails.CLIENT_CONTEXT_ON_INIT_START).log());
         String token = this.fileCommon.getTokenFromLocal();
         if (token == null)
             return;
@@ -222,7 +246,12 @@ public class ClientContext {
      */
     public void onListenerShell(TestProto.TaskShell.Builder taskShell) {
         this.taskShell = taskShell;
-        //TODO 这里掉脚本处理器
+        TestProto.Task task = this.taskCacheQueue.get(cUser.getDoingTaskId());
+        if (task == null) {
+            //TODO 如果这个任务不存在则调用ly的方法去mainServer查
+        }
+        IConnection connection = connectionFactory.connection(task.getTaskProtocl(), taskShell);
+        schedule.startSchedule(connection, taskShell,this);
         LogBuilder.initLog(LogMsg.CLIENT_CONTEXT, OptionDetails.CLIENT_CONTEXT_ON_LISTENER_SHELL).log();
     }
 

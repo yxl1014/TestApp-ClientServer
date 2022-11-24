@@ -6,9 +6,12 @@ package client.common.logs;
  */
 public enum OptionDetails {
 
-    //---------------------LoginServer---------------------
     //测试
     TEST_OK("测试", "成功", "无敌"),
+    KAFKA_CONSUMER_TEST("kafka监听test","成功","收到的数据"),
+
+    //---------------------LoginServer---------------------
+
 
     //自定义协议
     PROTOCOL_ERROR("协议错误", "失败", "协议错误"),
@@ -166,6 +169,7 @@ public enum OptionDetails {
     WRITE_FILE_TOKEN_OK("写入文件","成功","token写入成功"),
     //clientContext
     CLIENT_CONTEXT_ON_LOGIN_OK("客户端上下文","成功","onLogin执行成功"),
+    CLIENT_CONTEXT_ON_INIT_START("客户端上下文","开始","onInit开始执行"),
     CLIENT_CONTEXT_ON_INIT_OK("客户端上下文","成功","onInit执行成功"),
     CLIENT_CONTEXT_ON_GET_TASK("客户端上下文","成功","onGetTask执行成功"),
     CLIENT_CONTEXT_ON_GET_TASK_LIST("客户端上下文","成功","onGetTask_List执行成功"),

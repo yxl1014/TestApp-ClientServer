@@ -177,7 +177,4 @@ public class LoginController {
         System.out.println(result);
 
     }
-
-
-
 }

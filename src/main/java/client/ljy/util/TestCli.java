@@ -18,7 +18,7 @@ public class TestCli {
 
         TestProto.TaskProtocl xxx=TestProto.TaskProtocl.HTTP;
         //http/udp/tct
-        IConnection connection = ConnectionFactory.connection(xxx,builder);
+        IConnection connection = new ConnectionFactory().connection(xxx,builder);
         
         connection.setParameter(builder);
 

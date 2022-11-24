@@ -1,6 +1,9 @@
 package client.yxl.kafka.consumer.runnable;
 
+import client.common.logs.LogBuilder;
+import client.common.logs.LogMsg;
 import client.common.logs.LogUtil;
+import client.common.logs.OptionDetails;
 import client.yxl.context.ClientContext;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
@@ -46,6 +49,10 @@ public class KafkaConsumerRunner implements Runnable {
                     if (Integer.parseInt(record.key()) == clientContext.getUserId()) {
                         TestProto.TaskShell.Builder builder = TestProto.TaskShell.newBuilder();
                         JsonFormat.parser().merge(record.value(), builder);
+                        LogBuilder logBuilder = LogBuilder.initLog(LogMsg.TEST, OptionDetails.KAFKA_CONSUMER_TEST);
+                        logBuilder.build("key", record.key());
+                        logBuilder.build("msg", builder.toString());
+                        logger.info(logBuilder.log());
                         this.clientContext.onListenerShell(builder);
                     }
 /*
