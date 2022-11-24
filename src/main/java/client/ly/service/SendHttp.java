@@ -1,6 +1,8 @@
 package client.ly.service;
 
+import client.common.resource.PublicData;
 import client.common.util.ProtocolUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import pto.TestProto;
 
 import java.io.IOException;
@@ -11,7 +13,10 @@ import java.net.URL;
 
 public class SendHttp {
 
-    private final String url1 = "http://localhost:11111/user/";
+    @Autowired
+    private PublicData  publicData;
+
+    private final String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user";
 
     public String sendHttp_login(byte[] data, String controller) {
         OutputStream out = null;
