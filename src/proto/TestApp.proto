@@ -176,6 +176,12 @@ enum TaskProtocl{
   UDP = 3;
 }
 
+message ConnectionResulte{
+  int64 time = 1;
+  string type = 2;
+  string body = 3;
+}
+
 message TaskShell{
   string ip = 1;                      //请求IP
   string port = 2;                    //请求Port
