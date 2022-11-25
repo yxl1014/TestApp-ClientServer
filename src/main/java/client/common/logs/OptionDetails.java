@@ -187,7 +187,15 @@ public enum OptionDetails {
 
     CONNECTION_SEND_HTTP_FAIL("发送HTTP请求","失败","发送HTTP请求成功"),
     CONNECTION_SEND_UDP_FAIL("发送UDP请求","失败","发送UDP请求成功"),
-    CONNECTION_SEND_TCP_FAIL("发送TCP请求","失败","发送TCP请求成功")
+    CONNECTION_SEND_TCP_FAIL("发送TCP请求","失败","发送TCP请求成功"),
+
+    //PROTO TO JSON
+    KAFKA_PROTO_TO_JSON("数据格式转换","失败","proto转换json失败"),
+
+    //THREAD
+    THREAD_SLEEP("线程sleep","失败","可能存在线程中断")
+
+
     ;
     private String type;
     private String status;
