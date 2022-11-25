@@ -1,7 +1,12 @@
 package client.zyb.util;
+import client.common.logs.LogBuilder;
+import client.common.logs.LogMsg;
+import client.common.logs.LogUtil;
+import client.common.logs.OptionDetails;
 import client.ljy.net.myconnection.IConnection;
 import client.yxl.context.ClientContext;
 import client.zyb.timer.ScheduleTask;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import pto.TestProto;
 import java.util.ArrayList;
@@ -16,29 +21,41 @@ public class utils {
 
     @Autowired
     private ClientContext clientContext;
-
-    public  long getDelay(long startTime, long nowSecond, long intervalTime)
-    {
-        return startTime - nowSecond + intervalTime;
-    }
+    private final static Logger logger = LogUtil.getLogger(utils.class);
 
     public  TestProto.KafkaMsg.Builder getKafkaMsg(IConnection iConnection, TestProto.TaskShell.Builder taskShell )
     {
-        long i = 0;
-        iConnection.sendRequest();
+        TestProto.ConnectionResulte.Builder responseBuilder = iConnection.sendRequest();
         TestProto.KafkaMsg.Builder kafkaMag = null;
         kafkaMag.setUserId(clientContext.getUserId());
         kafkaMag.setTaskId(clientContext.getcUser().getDoingTaskId());
         kafkaMag.setShellId(taskShell.getShellId());
         kafkaMag.setIp(taskShell.getIp());
         kafkaMag.setPort(taskShell.getPort());
-        kafkaMag.setCostTime(i);
+        kafkaMag.setCostTime(responseBuilder.getTime());
         kafkaMag.setRequestMsg(taskShell.getBody());
-        kafkaMag.setResponseMsg(null);//金雨给我
-        kafkaMag.setSuccess(true);//金雨给我
+        kafkaMag.setResponseMsg(responseBuilder.getBody());//金雨给我
+        kafkaMag.setSuccess(getSuccess(responseBuilder.getType()));//金雨给我
         return kafkaMag;
     }
 
+    //判断测试结果数据。除了失败成功后期可加别的状态
+    public boolean getSuccess(String x)
+    {
+        if (x.equals("1"))
+        {
+            return true;
+        }else
+        {
+            return false;
+        }
+    }
+
+    //计算开始时间
+    public  long getDelay(long startTime, long nowSecond, long intervalTime)
+    {
+        return startTime - nowSecond + intervalTime;
+    }
 
     //失败数量结果统计
     int successNum = 0,failNum = 0,failureRate = 0;
@@ -60,9 +77,12 @@ public class utils {
             if (resultStatistics.size()==0)
             {
                 try {
-                    Thread.sleep(4);
+                    Thread.sleep(100);//毫秒
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    /**
+                     * 异常日志处理
+                     */
+                    logger.info(LogBuilder.initLog(LogMsg.THREAD, OptionDetails.THREAD_SLEEP));
                 }
                 monitor++;
                 if (monitor>10)//判断无返回状态次数是否大于10； TOO
@@ -123,6 +143,4 @@ public class utils {
         msg.setMsg("成功");
         return msg;
     }
-
-
 }
