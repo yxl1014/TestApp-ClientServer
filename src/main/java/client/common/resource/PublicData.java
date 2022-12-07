@@ -2,7 +2,7 @@ package client.common.resource;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 获取yml中配置的参数
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 
 
-@Component
+@Configuration
 @Data
 public class PublicData {
 

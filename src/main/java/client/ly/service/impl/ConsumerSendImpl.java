@@ -21,16 +21,16 @@ public class ConsumerSendImpl implements ConsumerSend {
     @Autowired
     private PublicData publicData;
 
-    private final String url= "http://" + publicData.getMAIN_SERVER_IP() + ":" + publicData.getMAIN_SERVER_PORT() + "/Consumer";
-
     @Autowired
     private ClientContext clientContext;
 
     @Override
-    public byte[] getTask(byte[] data, String controller) {
+    public TestProto.Task getTask(byte[] data, String controller) {
+        String url = "http://" + publicData.getMAIN_SERVER_IP() + ":" + publicData.getMAIN_SERVER_PORT() + "/Consumer/";
         OutputStream out = null;
         InputStream inputStream = null;
-        byte[] bytes1= null;
+        byte[] bytes1 = null;
+        TestProto.S2C_Get_Task s2C_get_task = null;
         try {
             URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
@@ -59,12 +59,12 @@ public class ConsumerSendImpl implements ConsumerSend {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_Get_Task s2C_get_task = TestProto.S2C_Get_Task.parseFrom(bytes);
+            s2C_get_task = TestProto.S2C_Get_Task.parseFrom(bytes);
             clientContext.onGetTask(s2C_get_task.getTask());
-            bytes1=s2C_get_task.toByteArray();
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
+            return null;
         } finally {
             try {
                 if (out != null) {
@@ -77,14 +77,16 @@ public class ConsumerSendImpl implements ConsumerSend {
                 ex.printStackTrace();
             }
         }
-        return bytes1;
+        return s2C_get_task.getTask();
     }
 
     @Override
-    public byte[] takeTask(byte[] data, String controller) {
+    public TestProto.ResponseMsg takeTask(byte[] data, String controller) {
+        String url = "http://" + publicData.getMAIN_SERVER_IP() + ":" + publicData.getMAIN_SERVER_PORT() + "/Consumer/";
         OutputStream out = null;
         InputStream inputStream = null;
-        byte[] bytes1= null;
+        byte[] bytes1 = null;
+        TestProto.S2C_Cons_TakeTask s2C_cons_takeTask = null;
         try {
             URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
@@ -113,11 +115,11 @@ public class ConsumerSendImpl implements ConsumerSend {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_Cons_TakeTask s2C_cons_takeTask = TestProto.S2C_Cons_TakeTask.parseFrom(bytes);
-            bytes1=s2C_cons_takeTask.toByteArray();
+            s2C_cons_takeTask = TestProto.S2C_Cons_TakeTask.parseFrom(bytes);
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
+            return null;
         } finally {
             try {
                 if (out != null) {
@@ -130,14 +132,16 @@ public class ConsumerSendImpl implements ConsumerSend {
                 ex.printStackTrace();
             }
         }
-        return bytes1;
+        return s2C_cons_takeTask.getMsg();
     }
 
     @Override
-    public byte[] startTask(byte[] data, String controller,int taskId) {
+    public TestProto.ResponseMsg startTask(byte[] data, String controller, int taskId) {
+        String url = "http://" + publicData.getMAIN_SERVER_IP() + ":" + publicData.getMAIN_SERVER_PORT() + "/Consumer/";
         OutputStream out = null;
         InputStream inputStream = null;
-        byte[] bytes1= null;
+        byte[] bytes1 = null;
+        TestProto.S2C_Cons_StartTask s2C_cons_startTask = null;
         try {
             URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
@@ -166,12 +170,12 @@ public class ConsumerSendImpl implements ConsumerSend {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_Cons_StartTask s2C_cons_startTask = TestProto.S2C_Cons_StartTask.parseFrom(bytes);
+            s2C_cons_startTask = TestProto.S2C_Cons_StartTask.parseFrom(bytes);
             clientContext.onStartTask(taskId);
-            bytes1=s2C_cons_startTask.toByteArray();
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
+            return null;
         } finally {
             try {
                 if (out != null) {
@@ -184,14 +188,16 @@ public class ConsumerSendImpl implements ConsumerSend {
                 ex.printStackTrace();
             }
         }
-        return bytes1;
+        return s2C_cons_startTask.getMsg();
     }
 
     @Override
-    public byte[] endTask(byte[] data, String controller) {
+    public TestProto.ResponseMsg endTask(byte[] data, String controller) {
+        String url = "http://" + publicData.getMAIN_SERVER_IP() + ":" + publicData.getMAIN_SERVER_PORT() + "/Consumer/";
         OutputStream out = null;
         InputStream inputStream = null;
-        byte[] bytes1= null;
+        byte[] bytes1 = null;
+        TestProto.S2C_Cons_EndTask s2C_cons_endTask = null;
         try {
             URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
@@ -220,12 +226,12 @@ public class ConsumerSendImpl implements ConsumerSend {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_Cons_EndTask s2C_cons_endTask = TestProto.S2C_Cons_EndTask.parseFrom(bytes);
+            s2C_cons_endTask = TestProto.S2C_Cons_EndTask.parseFrom(bytes);
             clientContext.onEndTask();
-            bytes1=s2C_cons_endTask.toByteArray();
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
+            return null;
         } finally {
             try {
                 if (out != null) {
@@ -238,14 +244,16 @@ public class ConsumerSendImpl implements ConsumerSend {
                 ex.printStackTrace();
             }
         }
-        return bytes1;
+        return s2C_cons_endTask.getMsg();
     }
 
     @Override
-    public byte[] delTask(byte[] data, String controller) {
+    public TestProto.ResponseMsg delTask(byte[] data, String controller) {
+        String url = "http://" + publicData.getMAIN_SERVER_IP() + ":" + publicData.getMAIN_SERVER_PORT() + "/Consumer/";
         OutputStream out = null;
         InputStream inputStream = null;
-        byte[] bytes1= null;
+        byte[] bytes1 = null;
+        TestProto.S2C_Cons_DelTask s2C_cons_delTask = null;
         try {
             URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
@@ -274,8 +282,7 @@ public class ConsumerSendImpl implements ConsumerSend {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_Cons_DelTask s2C_cons_delTask = TestProto.S2C_Cons_DelTask.parseFrom(bytes);
-            bytes1=s2C_cons_delTask.toByteArray();
+            s2C_cons_delTask = TestProto.S2C_Cons_DelTask.parseFrom(bytes);
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
@@ -291,14 +298,16 @@ public class ConsumerSendImpl implements ConsumerSend {
                 ex.printStackTrace();
             }
         }
-        return bytes1;
+        return s2C_cons_delTask.getMsg();
     }
 
     @Override
-    public byte[] allGetTask(byte[] data, String controller) {
+    public TestProto.ConsGetTasks allGetTask(byte[] data, String controller) {
+        String url = "http://" + publicData.getMAIN_SERVER_IP() + ":" + publicData.getMAIN_SERVER_PORT() + "/Consumer/";
         OutputStream out = null;
         InputStream inputStream = null;
-        byte[] bytes1= null;
+        byte[] bytes1 = null;
+        TestProto.S2C_Cons_AllGetTasks s2C_cons_allGetTasks = null;
         try {
             URL realUrl = new URL(url + controller);
             // 打开和URL之间的连接
@@ -327,9 +336,8 @@ public class ConsumerSendImpl implements ConsumerSend {
             byte[] bb = new byte[len];
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
-            TestProto.S2C_Cons_AllGetTasks s2C_cons_allGetTasks = TestProto.S2C_Cons_AllGetTasks.parseFrom(bytes);
+            s2C_cons_allGetTasks = TestProto.S2C_Cons_AllGetTasks.parseFrom(bytes);
             clientContext.onGetTask(s2C_cons_allGetTasks.getTasks().getTasksList());
-            bytes1=s2C_cons_allGetTasks.toByteArray();
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！");
             e.printStackTrace();
@@ -345,6 +353,6 @@ public class ConsumerSendImpl implements ConsumerSend {
                 ex.printStackTrace();
             }
         }
-        return bytes1;
+        return s2C_cons_allGetTasks.getTasks();
     }
 }

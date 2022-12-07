@@ -1,5 +1,7 @@
 package client.ly.service;
 
+import pto.TestProto;
+
 public interface ConsumerSend {
 
     /**
@@ -8,7 +10,7 @@ public interface ConsumerSend {
      * @param controller
      * @return
      */
-     byte[] getTask(byte[] data, String controller);
+     TestProto.Task getTask(byte[] data, String controller);
 
     /**
      *
@@ -16,7 +18,7 @@ public interface ConsumerSend {
      * @param controller
      * @return
      */
-     byte[] takeTask(byte[] data, String controller);
+     TestProto.ResponseMsg takeTask(byte[] data, String controller);
 
     /**
      *
@@ -25,7 +27,7 @@ public interface ConsumerSend {
      * @param taskId
      * @return
      */
-     byte[] startTask(byte[] data, String controller,int taskId);
+    TestProto.ResponseMsg startTask(byte[] data, String controller,int taskId);
 
     /**
      *
@@ -33,7 +35,7 @@ public interface ConsumerSend {
      * @param controller
      * @return
      */
-     byte[] endTask(byte[] data, String controller);
+    TestProto.ResponseMsg endTask(byte[] data, String controller);
 
     /**
      *
@@ -41,7 +43,7 @@ public interface ConsumerSend {
      * @param controller
      * @return
      */
-     byte[] delTask(byte[] data, String controller);
+    TestProto.ResponseMsg delTask(byte[] data, String controller);
 
     /**
      *
@@ -49,6 +51,6 @@ public interface ConsumerSend {
      * @param controller
      * @return
      */
-     byte[] allGetTask(byte[] data, String controller);
+     TestProto.ConsGetTasks allGetTask(byte[] data, String controller);
 
 }

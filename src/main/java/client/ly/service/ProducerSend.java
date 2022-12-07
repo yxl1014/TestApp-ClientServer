@@ -1,5 +1,7 @@
 package client.ly.service;
 
+import pto.TestProto;
+
 public interface ProducerSend {
 
     /**
@@ -8,7 +10,7 @@ public interface ProducerSend {
      * @param controller
      * @return
      */
-     byte[] addTask(byte[] data, String controller);
+     TestProto.ResponseMsg addTask(byte[] data, String controller);
 
     /**
      *
@@ -17,7 +19,7 @@ public interface ProducerSend {
      * @param taskId
      * @return
      */
-     byte[] startTask(byte[] data, String controller,int taskId);
+    TestProto.ResponseMsg startTask(byte[] data, String controller,int taskId);
 
     /**
      *
@@ -25,7 +27,7 @@ public interface ProducerSend {
      * @param controller
      * @return
      */
-     byte[] endTask(byte[] data, String controller);
+    TestProto.ResponseMsg endTask(byte[] data, String controller);
 
     /**
      *
@@ -33,7 +35,7 @@ public interface ProducerSend {
      * @param controller
      * @return
      */
-     byte[] getTaskResults(byte[] data, String controller);
+    TestProto.TaskResult getTaskResults(byte[] data, String controller);
 
     /**
      *
@@ -41,5 +43,5 @@ public interface ProducerSend {
      * @param controller
      * @return
      */
-     byte[] allGetTask(byte[] data, String controller);
+    TestProto.ProdAddTasks allGetTask(byte[] data, String controller);
 }

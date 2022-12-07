@@ -1,184 +1,128 @@
 package client.ly.controller;
 
-import client.common.resource.PublicData;
 import client.common.util.ProtocolUtil;
 import client.ly.service.SendHttp;
-import client.yxl.context.ClientContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pto.TestProto;
 
 
 @RestController
 @RequestMapping("/user")
 public class LoginController {
-    SendHttp sendHttp=new SendHttp();
-
-
-
-  //  private final RankProto.rank.Builder rankBuilder = RankProto.rank.newBuilder();
 
     @Autowired
-    private PublicData publicData;
+    SendHttp sendHttp;
 
-    private final String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user";
+
+    //  private final RankProto.rank.Builder rankBuilder = RankProto.rank.newBuilder();
 
 
     @PostMapping("/login")
-    public void Login(@RequestBody String un, @RequestBody String pwd) {
+    public String Login(@RequestParam String un, @RequestParam String pwd, @RequestParam int type) {
         TestProto.User.Builder builder = TestProto.User.newBuilder();
         builder.setUserTel(un);
         builder.setUserPassword(pwd);
         TestProto.C2S_Login.Builder builder1 = TestProto.C2S_Login.newBuilder();
-        builder1.setLoginType(0);
+        builder1.setLoginType(type);
         builder1.setUser(builder.buildPartial());
-        byte[] bytes=builder1.buildPartial().toByteArray();
+        byte[] bytes = builder1.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_LOGIN);
-        for (byte b:bytes){
-            System.out.print(b);
-        }
-        System.out.println();
-
-        String result = sendHttp.sendHttp_login(bytess, "login");
-        System.out.println(result);
+        return sendHttp.sendHttp_login(bytess, "login");
     }
 
     @PostMapping("/register")
-    public void Register(@RequestBody String un, @RequestBody String pwd){
+    public String Register(@RequestParam String name, @RequestParam String tel, @RequestParam String pwd) {
         TestProto.User.Builder builder = TestProto.User.newBuilder();
-        builder.setUserTel(un);
+        builder.setUserName(name);
+        builder.setUserTel(tel);
         builder.setUserPassword(pwd);
         TestProto.C2S_Register.Builder builder1 = TestProto.C2S_Register.newBuilder();
         builder1.setUser(builder.buildPartial());
-        byte[] bytes=builder1.buildPartial().toByteArray();
+        byte[] bytes = builder1.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_REGISTER);
-        for (byte b:bytes){
-            System.out.print(b);
-        }
-        System.out.println();
-
-        String result = sendHttp.sendHttp_Register(bytess, "register");
-        System.out.println(result);
+        return sendHttp.sendHttp_Register(bytess, "register");
     }
+
     @PostMapping("/updatePwdById")
-    public void updatePwdById(@RequestBody int id,@RequestBody String pwd){
-        TestProto.User.Builder builder= TestProto.User.newBuilder();
+    public String updatePwdById(@RequestParam int id, @RequestParam String pwd) {
+        TestProto.User.Builder builder = TestProto.User.newBuilder();
         builder.setUserId(id);
         builder.setUserPassword(pwd);
-        TestProto.C2S_UpdatePwd.Builder builder1=TestProto.C2S_UpdatePwd.newBuilder();
+        TestProto.C2S_UpdatePwd.Builder builder1 = TestProto.C2S_UpdatePwd.newBuilder();
         builder1.setUser(builder.buildPartial());
-        byte[] bytes=builder1.buildPartial().toByteArray();
+        byte[] bytes = builder1.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_UPDATEPWD);
-        for (byte b:bytes){
-            System.out.print(b);
-        }
-        System.out.println();
-        String result = sendHttp.sendHttp_updatepwd(bytess,"updatePwdById");
-        System.out.println(result);
-
+        return sendHttp.sendHttp_updatepwd(bytess, "updatePwdById");
     }
 
     @PostMapping("/updateAllById")
-    public void updateAllById(@RequestBody String userName,@RequestBody String userIp,@RequestBody String userPos,
-                              @RequestBody String userCompany,@RequestBody String userHome,@RequestBody int userId){
-        TestProto.User.Builder builder= TestProto.User.newBuilder();
+    public String updateAllById(@RequestParam String userName, @RequestParam String userIp, @RequestParam String userPos,
+                                @RequestParam String userCompany, @RequestParam String userHome, @RequestParam int userId) {
+        TestProto.User.Builder builder = TestProto.User.newBuilder();
         builder.setUserName(userName);
         builder.setUserIp(userIp);
         builder.setUserPos(userPos);
         builder.setUserCompany(userCompany);
         builder.setUserHome(userHome);
         builder.setUserId(userId);
-        TestProto.C2S_UpdateAll.Builder builder1=TestProto.C2S_UpdateAll.newBuilder();
+        TestProto.C2S_UpdateAll.Builder builder1 = TestProto.C2S_UpdateAll.newBuilder();
         builder1.setUser(builder.buildPartial());
-        byte[] bytes=builder1.buildPartial().toByteArray();
+        byte[] bytes = builder1.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_UPDATEALL);
-        for (byte b:bytes){
-            System.out.print(b);
-        }
-        System.out.println();
-        String result = sendHttp.sendHttp_updatepwd(bytess,"updateAllById");
-        System.out.println(result);
+        return sendHttp.sendHttp_updatepwd(bytess, "updateAllById");
     }
 
     @PostMapping("/updateEmailById")
-    public void updateEmailById(@RequestBody int id,@RequestBody String email){
-        TestProto.User.Builder builder= TestProto.User.newBuilder();
+    public String updateEmailById(@RequestParam int id, @RequestParam String email) {
+        TestProto.User.Builder builder = TestProto.User.newBuilder();
         builder.setUserId(id);
         builder.setUserEmail(email);
-        TestProto.C2S_UpdateTel.Builder builder1=TestProto.C2S_UpdateTel.newBuilder();
+        TestProto.C2S_UpdateTel.Builder builder1 = TestProto.C2S_UpdateTel.newBuilder();
         builder1.setUser(builder.buildPartial());
-        byte[] bytes=builder1.buildPartial().toByteArray();
+        byte[] bytes = builder1.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_UPDATEEMAIL);
-        for (byte b:bytes){
-            System.out.print(b);
-        }
-        System.out.println();
-        String result = sendHttp.sendHttp_updateEmailByTle(bytess,"updateEmailById");
-        System.out.println(result);
-
+        return sendHttp.sendHttp_updateEmailByTle(bytess, "updateEmailById");
     }
 
     @PostMapping("/updateTelById")
-    public void updateTelById(@RequestBody int id,@RequestBody String tel){
-        TestProto.User.Builder builder= TestProto.User.newBuilder();
+    public String updateTelById(@RequestParam int id, @RequestParam String tel) {
+        TestProto.User.Builder builder = TestProto.User.newBuilder();
         builder.setUserId(id);
         builder.setUserTel(tel);
-        TestProto.C2S_UpdateTel.Builder builder1=TestProto.C2S_UpdateTel.newBuilder();
+        TestProto.C2S_UpdateTel.Builder builder1 = TestProto.C2S_UpdateTel.newBuilder();
         builder1.setUser(builder.buildPartial());
-        byte[] bytes=builder1.buildPartial().toByteArray();
+        byte[] bytes = builder1.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_UPDATETEL);
-        for (byte b:bytes){
-            System.out.print(b);
-        }
-        System.out.println();
-        String result = sendHttp.sendHttp_updateEmailByTle(bytess,"updateTelById");
-        System.out.println(result);
-
+        return sendHttp.sendHttp_updateEmailByTle(bytess, "updateTelById");
     }
 
     //绑定邮箱
     @PostMapping("/bindMailbox")
-    public void bindMailbox(@RequestBody int id,@RequestBody String email){
-        TestProto.User.Builder builder= TestProto.User.newBuilder();
+    public String bindMailbox(@RequestParam int id, @RequestParam String email) {
+        TestProto.User.Builder builder = TestProto.User.newBuilder();
         builder.setUserId(id);
         builder.setUserEmail(email);
-        TestProto.C2S_BindMailBox.Builder builder1=TestProto.C2S_BindMailBox.newBuilder();
+        TestProto.C2S_BindMailBox.Builder builder1 = TestProto.C2S_BindMailBox.newBuilder();
         builder1.setUser(builder.build());
-        byte[] bytes=builder1.build().toByteArray();
-//        System.out.println(bytes.length);
+        byte[] bytes = builder1.build().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_BINDMAILBOX);
-        for (byte b:bytes){
-            System.out.print(b);
-        }
-        System.out.println();
-        String result = sendHttp.sendHttp_bindMailbox(bytess,"bindMailbox");
-        System.out.println(result);
-
+        return sendHttp.sendHttp_bindMailbox(bytess, "bindMailbox");
     }
 
     //验证邮箱
     @PostMapping("/checkMailbox")
-    public void checkMailbox(@RequestBody int id,@RequestBody String email ,@RequestBody String code){
-        TestProto.User.Builder builder= TestProto.User.newBuilder();
+    public String checkMailbox(@RequestParam int id, @RequestParam String email, @RequestParam String code) {
+        TestProto.User.Builder builder = TestProto.User.newBuilder();
         builder.setUserId(id);
         builder.setUserEmail(email);
 
-        TestProto.C2S_CheckMailBox.Builder builder1=TestProto.C2S_CheckMailBox.newBuilder();
+        TestProto.C2S_CheckMailBox.Builder builder1 = TestProto.C2S_CheckMailBox.newBuilder();
         builder1.setUser(builder.build());
         builder1.setCode(code);
-        byte[] bytes=builder1.build().toByteArray();
+        byte[] bytes = builder1.build().toByteArray();
 //        System.out.println(bytes.length);
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CHECKMAILBOX);
-        for (byte b:bytes){
-            System.out.print(b);
-        }
-        System.out.println();
-        String result = sendHttp.sendHttp_checkMailbox(bytess,"checkMailbox");
-        System.out.println(result);
-
+        return sendHttp.sendHttp_checkMailbox(bytess, "checkMailbox");
     }
 }

@@ -26,147 +26,145 @@ public class MainController {
     private ProducerSendImpl producerSend;
 
 
-
-
     @PostMapping("/consGetTask")
-    public byte[] consGetTask(@RequestBody int id) {
+    public TestProto.Task consGetTask(@RequestBody int id) {
         TestProto.C2S_Get_Task.Builder builder = TestProto.C2S_Get_Task.newBuilder();
         builder.setTaskId(id);
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_GET_TASK);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return consumerSend.getTask(bytess,"/getTaskInformation");
+        return consumerSend.getTask(bytess, "/getTaskInformation");
     }
 
     @PostMapping("/consTakeTask")
-    public byte[] consTakeTask(@RequestBody int userId,@RequestBody int taskId) {
+    public TestProto.ResponseMsg consTakeTask(@RequestBody int userId, @RequestBody int taskId) {
         TestProto.C2S_Cons_TakeTask.Builder builder = TestProto.C2S_Cons_TakeTask.newBuilder();
         builder.setUserId(userId);
         builder.setTaskId(taskId);
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CONS_TAKE_TASK);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return consumerSend.takeTask(bytess,"/ConsTakeTask");
+        return consumerSend.takeTask(bytess, "/ConsTakeTask");
     }
 
     @PostMapping("/consStartTask")
-    public byte[] consStartTask(@RequestBody int userId,@RequestBody int taskId) {
+    public TestProto.ResponseMsg consStartTask(@RequestBody int userId, @RequestBody int taskId) {
         TestProto.C2S_Cons_StartTask.Builder builder = TestProto.C2S_Cons_StartTask.newBuilder();
         builder.setUserId(userId);
         builder.setTaskId(taskId);
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CONS_START_TASK);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return consumerSend.startTask(bytess,"/consStartTask",taskId);
+        return consumerSend.startTask(bytess, "/consStartTask", taskId);
     }
 
     @PostMapping("/consEndTask")
-    public byte[] consEndTask(@RequestBody int userId,@RequestBody int taskId) {
+    public TestProto.ResponseMsg consEndTask(@RequestBody int userId, @RequestBody int taskId) {
         TestProto.C2S_Cons_EndTask.Builder builder = TestProto.C2S_Cons_EndTask.newBuilder();
         builder.setUserId(userId);
         builder.setTaskId(taskId);
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CONS_END_TASK);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return consumerSend.endTask(bytess,"/consEndTask");
+        return consumerSend.endTask(bytess, "/consEndTask");
     }
 
     @PostMapping("/consDelTask")
-    public byte[] consDelTask(@RequestBody int userId,@RequestBody int taskId) {
+    public TestProto.ResponseMsg consDelTask(@RequestBody int userId, @RequestBody int taskId) {
         TestProto.C2S_Cons_DelTask.Builder builder = TestProto.C2S_Cons_DelTask.newBuilder();
         builder.setUserId(userId);
         builder.setTaskId(taskId);
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CNS_DEL_TASK);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return consumerSend.delTask(bytess,"/consDelTask");
+        return consumerSend.delTask(bytess, "/consDelTask");
     }
 
 
     @PostMapping("/consGetAllTask")
-    public byte[] consGAllTask(@RequestBody int id) {
+    public TestProto.ConsGetTasks consGAllTask(@RequestBody int id) {
         TestProto.C2S_Cons_AllGetTasks.Builder builder = TestProto.C2S_Cons_AllGetTasks.newBuilder();
         builder.setUserId(id);
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CONS_ALL_GET_TASKS);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return consumerSend.allGetTask(bytess,"/consAllGetTasks");
+        return consumerSend.allGetTask(bytess, "/consAllGetTasks");
     }
 
 
     @PostMapping("/prodAddTask")
-    public byte[] prodAddTask(@RequestBody byte[] data) throws InvalidProtocolBufferException {
-        if(data == null){
+    public TestProto.ResponseMsg prodAddTask(@RequestBody byte[] data) throws InvalidProtocolBufferException {
+        if (data == null) {
             return null;
         }
         TestProto.C2S_prodAddTask.Builder builder = TestProto.C2S_prodAddTask.newBuilder();
         builder.setTask(TestProto.Task.parseFrom(data));
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_PROD_ADD_TASK);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return producerSend.addTask(bytess,"/release");
+        return producerSend.addTask(bytess, "/release");
     }
 
     @PostMapping("/prodStartTask")
-    public byte[] prodStartTask(@RequestBody int id){
+    public TestProto.ResponseMsg prodStartTask(@RequestBody int id) {
         TestProto.C2S_ProdStartTask.Builder builder = TestProto.C2S_ProdStartTask.newBuilder();
         builder.setTaskId(id);
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_PROD_START_TASK);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return producerSend.startTask(bytess,"/Start",id);
+        return producerSend.startTask(bytess, "/Start", id);
     }
 
     @PostMapping("/prodEndTask")
-    public byte[] prodEndTask(@RequestBody int id){
+    public TestProto.ResponseMsg prodEndTask(@RequestBody int id) {
         TestProto.C2S_prod_EndTask.Builder builder = TestProto.C2S_prod_EndTask.newBuilder();
         builder.setTaskId(id);
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_PROD_END_TASK);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return producerSend.endTask(bytess,"/close");
+        return producerSend.endTask(bytess, "/close");
     }
 
     @PostMapping("/prodGetTaskResults")
-    public byte[] prodGetTaskResults(@RequestBody int id){
+    public TestProto.TaskResult prodGetTaskResults(@RequestBody int id) {
         TestProto.C2S_prod_GetResult.Builder builder = TestProto.C2S_prod_GetResult.newBuilder();
         builder.setTaskId(id);
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_PROD_GETRESULT);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return producerSend.getTaskResults(bytess,"/GetTestResults");
+        return producerSend.getTaskResults(bytess, "/GetTestResults");
     }
 
     @PostMapping("/prodAllGetTask")
-    public byte[] prodAllGetTask(@RequestBody int id){
+    public TestProto.ProdAddTasks prodAllGetTask(@RequestBody int id) {
         TestProto.C2S_prod_GetAllAddTasks.Builder builder = TestProto.C2S_prod_GetAllAddTasks.newBuilder();
         builder.setUserId(id);
-        byte[] bytes=builder.buildPartial().toByteArray();
+        byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_PROD_GET_ALL_ADD_TASKS);
-        for (byte b:bytes){
+        for (byte b : bytes) {
             System.out.print(b);
         }
-        return producerSend.allGetTask(bytess,"/queryAllAddTasks");
+        return producerSend.allGetTask(bytess, "/queryAllAddTasks");
     }
 
 

@@ -4,6 +4,7 @@ import client.common.resource.PublicData;
 import client.common.util.ProtocolUtil;
 import client.yxl.context.ClientContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pto.TestProto;
 
@@ -13,18 +14,19 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
+@Component
 public class SendHttp {
 
     @Autowired
-    private PublicData  publicData;
+    private PublicData publicData;
 
     @Autowired
     private ClientContext clientContext;
 
-    private final String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user";
 
     public String sendHttp_login(byte[] data, String controller) {
+        String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user/";
+
         OutputStream out = null;
         InputStream inputStream = null;
         StringBuilder result = new StringBuilder();
@@ -81,6 +83,7 @@ public class SendHttp {
     }
 
     public String sendHttp_Register(byte[] data, String controller) {
+        String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user/";
         OutputStream out = null;
         InputStream inputStream = null;
         StringBuilder result = new StringBuilder();
@@ -136,6 +139,7 @@ public class SendHttp {
     }
 
     public String sendHttp_updatepwd(byte[] data, String controller) {
+        String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user/";
         OutputStream out = null;
         InputStream inputStream = null;
         StringBuilder result = new StringBuilder();
@@ -191,6 +195,7 @@ public class SendHttp {
     }
 
     public String sendHttp_updateEmailByTle(byte[] data, String controller) {
+        String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user/";
         OutputStream out = null;
         InputStream inputStream = null;
         StringBuilder result = new StringBuilder();
@@ -248,6 +253,7 @@ public class SendHttp {
 
 
     public String sendHttp_bindMailbox(byte[] data, String controller) {
+        String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user/";
         OutputStream out = null;
         InputStream inputStream = null;
         StringBuilder result = new StringBuilder();
@@ -304,6 +310,7 @@ public class SendHttp {
 
 
     public String sendHttp_checkMailbox(byte[] data, String controller) {
+        String url1= "http://" + publicData.getLOGIN_SERVER_IP() + ":" + publicData.getLOGIN_SERVER_PORT() + "/user/";
         OutputStream out = null;
         InputStream inputStream = null;
         StringBuilder result = new StringBuilder();
