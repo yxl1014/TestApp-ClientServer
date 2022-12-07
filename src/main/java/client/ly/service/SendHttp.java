@@ -5,7 +5,6 @@ import client.common.util.ProtocolUtil;
 import client.yxl.context.ClientContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import pto.TestProto;
 
 import java.io.IOException;
@@ -59,7 +58,7 @@ public class SendHttp {
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
             TestProto.S2C_Login s2C_login = TestProto.S2C_Login.parseFrom(bytes);
-            result.append(s2C_login.getStatus()).append(s2C_login.getMsg());
+            result.append(s2C_login.getStatus()).append("_").append(s2C_login.getMsg());
             clientContext.onLogin(s2C_login);
 
         } catch (Exception e) {
@@ -116,7 +115,7 @@ public class SendHttp {
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
             TestProto.S2C_Register s2C_rester = TestProto.S2C_Register.parseFrom(bytes);
-            result.append(s2C_rester.getStatus()).append(s2C_rester.getMsg());
+            result.append(s2C_rester.getStatus()).append("_").append(s2C_rester.getMsg());
 
 
         } catch (Exception e) {
@@ -172,7 +171,7 @@ public class SendHttp {
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
             TestProto.S2C_UpdateAll s2C_updatePwd = TestProto.S2C_UpdateAll.parseFrom(bytes);
-            result.append(s2C_updatePwd.getStatus()).append(s2C_updatePwd.getMsg());
+            result.append(s2C_updatePwd.getStatus()).append("_").append(s2C_updatePwd.getMsg());
 
 
         } catch (Exception e) {
@@ -228,7 +227,7 @@ public class SendHttp {
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
             TestProto.S2C_UpdateTel s2C_updateTel = TestProto.S2C_UpdateTel.parseFrom(bytes);
-            result.append(s2C_updateTel.getStatus()).append(s2C_updateTel.getMsg());
+            result.append(s2C_updateTel.getStatus()).append("_").append(s2C_updateTel.getMsg());
 
 
         } catch (Exception e) {
@@ -286,7 +285,7 @@ public class SendHttp {
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
             TestProto.S2C_BindMailBox s2C_updateTel = TestProto.S2C_BindMailBox.parseFrom(bytes);
-            result.append(s2C_updateTel.getStatus()).append(s2C_updateTel.getMsg());
+            result.append(s2C_updateTel.getStatus()).append("_").append(s2C_updateTel.getMsg());
 
 
         } catch (Exception e) {
@@ -343,7 +342,7 @@ public class SendHttp {
             System.arraycopy(b, 0, bb, 0, len);
             byte[] bytes = new ProtocolUtil().decodeProtocol(bb);
             TestProto.S2C_CheckMailBox s2C_updateTel = TestProto.S2C_CheckMailBox.parseFrom(bytes);
-            result.append(s2C_updateTel.getStatus()).append(s2C_updateTel.getMsg());
+            result.append(s2C_updateTel.getStatus()).append("_").append(s2C_updateTel.getMsg());
 
 
         } catch (Exception e) {

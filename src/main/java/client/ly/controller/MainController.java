@@ -32,9 +32,6 @@ public class MainController {
         builder.setTaskId(id);
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_GET_TASK);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return consumerSend.getTask(bytess, "/getTaskInformation");
     }
 
@@ -45,9 +42,6 @@ public class MainController {
         builder.setTaskId(taskId);
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CONS_TAKE_TASK);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return consumerSend.takeTask(bytess, "/ConsTakeTask");
     }
 
@@ -58,9 +52,6 @@ public class MainController {
         builder.setTaskId(taskId);
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CONS_START_TASK);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return consumerSend.startTask(bytess, "/consStartTask", taskId);
     }
 
@@ -71,9 +62,6 @@ public class MainController {
         builder.setTaskId(taskId);
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CONS_END_TASK);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return consumerSend.endTask(bytess, "/consEndTask");
     }
 
@@ -84,9 +72,6 @@ public class MainController {
         builder.setTaskId(taskId);
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CNS_DEL_TASK);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return consumerSend.delTask(bytess, "/consDelTask");
     }
 
@@ -97,9 +82,6 @@ public class MainController {
         builder.setUserId(id);
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_CONS_ALL_GET_TASKS);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return consumerSend.allGetTask(bytess, "/consAllGetTasks");
     }
 
@@ -113,9 +95,6 @@ public class MainController {
         builder.setTask(TestProto.Task.parseFrom(data));
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_PROD_ADD_TASK);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return producerSend.addTask(bytess, "/release");
     }
 
@@ -125,9 +104,6 @@ public class MainController {
         builder.setTaskId(id);
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_PROD_START_TASK);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return producerSend.startTask(bytess, "/Start", id);
     }
 
@@ -137,9 +113,6 @@ public class MainController {
         builder.setTaskId(id);
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_PROD_END_TASK);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return producerSend.endTask(bytess, "/close");
     }
 
@@ -149,9 +122,6 @@ public class MainController {
         builder.setTaskId(id);
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_PROD_GETRESULT);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return producerSend.getTaskResults(bytess, "/GetTestResults");
     }
 
@@ -161,9 +131,6 @@ public class MainController {
         builder.setUserId(id);
         byte[] bytes = builder.buildPartial().toByteArray();
         byte[] bytess = new ProtocolUtil().encodeProtocol(bytes, bytes.length, TestProto.Types.C2S_PROD_GET_ALL_ADD_TASKS);
-        for (byte b : bytes) {
-            System.out.print(b);
-        }
         return producerSend.allGetTask(bytess, "/queryAllAddTasks");
     }
 
